@@ -11,6 +11,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+@Component
 public class TokenProvider {
     // JWT: 전자 서명이 된 토큰
     // JSON 형태로 구성된 토큰
