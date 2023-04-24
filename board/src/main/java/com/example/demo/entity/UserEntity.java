@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.example.demo.dto.request.auth.SignUpDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +24,13 @@ public class UserEntity {
     private String height;
     private String weight;
     private String gender;
+
+    public UserEntity(SignUpDto dto) {
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.nickname = dto.getNickname();
+        this.height = dto.getHeight();
+        this.weight = dto.getWeight();
+        this.gender = dto.getGender();
+    }
 }
