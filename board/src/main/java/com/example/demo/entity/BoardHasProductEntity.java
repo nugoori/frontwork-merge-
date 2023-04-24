@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.example.demo.entity.primaryKey.BoardHasProductPK;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,10 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "ProductHasBaord")
 @Table(name = "ProductHasBoard")
-public class ProductHasBoardEntity {
-
+public class BoardHasProductEntity {
     @Id
-    private int productNumber;
-    @Id
-    private int boardNumber;
+    private BoardHasProductPK boardHasProductPK;
+    
 }

@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import lombok.Data;
 
 @Data
-public class ProductHasBoardPK implements Serializable {
+public class BoardHasProductPK implements Serializable {
 
     @Column(name = "product_number")
     private int productNumber;
