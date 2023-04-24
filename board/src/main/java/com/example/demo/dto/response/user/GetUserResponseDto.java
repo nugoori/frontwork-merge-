@@ -1,4 +1,4 @@
-package com.example.demo.dto.response;
+package com.example.demo.dto.response.user;
 
 import com.example.demo.entity.UserEntity;
 

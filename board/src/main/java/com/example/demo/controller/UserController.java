@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.constant.ApiPattern;
-import com.example.demo.dto.response.GetUserResponseDto;
 import com.example.demo.dto.response.ResponseDto;
+import com.example.demo.dto.response.user.GetUserResponseDto;
 import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;

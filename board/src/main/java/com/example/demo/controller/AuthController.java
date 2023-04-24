@@ -7,6 +7,6 @@ import com.example.demo.common.constant.ApiPattern;
 
 @RestController
 @RequestMapping(ApiPattern.AUTH)
-public class AuthController {
+public class AuthController { //인증 모듈 구현
     
 }

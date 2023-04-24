@@ -25,24 +25,26 @@ public class TokenProvider {
     private String SECURITY_KEY;
 
     // JWT 생성하는 매서드
-    public String create (String userEmail) {
+    public String create (String email) {
         // 만료날짜를 현재 날짜 + 1시간으로 설정
         Date expiredTime = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
 
         // JWT를 생성해주는 함수
-        return Jwts.builder()
-                    // 암호화에 사용될 알고리즘, 키
-                    .signWith(SignatureAlgorithm.HS512, SECURITY_KEY)
-                    // JWT의 제목, 생성일, 만료일
-                    .setSubject(userEmail).setIssuedAt(new Date()).setExpiration(expiredTime)
-                    // 생성
-                    .compact();
+        String jwt = Jwts.builder()
+                        // 암호화에 사용될 알고리즘, 키
+                        .signWith(SignatureAlgorithm.HS512, SECURITY_KEY)
+                        // JWT의 제목, 생성일, 만료일
+                        .setSubject(email).setIssuedAt(new Date()).setExpiration(expiredTime)
+                        // 생성
+                        .compact();
+                    
+                    return jwt;
     }
 
     // JWT 검증 = 복호화
-    public String vaildate (String token) {
+    public String vaildate (String jwt) {
         // 매개변수로 받은 token을 키로 사용하여 복호화 (= 디코딩)
-        Claims claims = Jwts.parser().setSigningKey(SECURITY_KEY).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(SECURITY_KEY).parseClaimsJws(jwt).getBody();
 
         // 복호화된 토큰의 payload에서 제목을 가져옴
         // parsing한 claims안에 있는 subject값 
