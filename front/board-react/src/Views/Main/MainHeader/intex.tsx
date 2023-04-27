@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AppBar, Box, Button, Container, Grid, IconButton, Paper, ThemeProvider, Toolbar, Typography, createTheme } from '@mui/material'
+import { AppBar, Box, Button, IconButton, ThemeProvider, Toolbar, Typography, createTheme } from '@mui/material'
 
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -8,7 +8,7 @@ const darkTheme = createTheme({
     palette: {
         mode: 'dark',
         primary: {
-        main: '#323232',
+        main: '#393939',
         },
     },
 });
@@ -16,7 +16,7 @@ const darkTheme = createTheme({
 export default function MainHeader() {
     return(
         <>
-            <Box sx={{ flexGrow: 1 }} ml={20} mr={20}>
+            <Box sx={{ flexGrow: 1 }} >
             <ThemeProvider theme={darkTheme}>
                 <AppBar position="static" color='primary' enableColorOnDark>
                     <Toolbar>
