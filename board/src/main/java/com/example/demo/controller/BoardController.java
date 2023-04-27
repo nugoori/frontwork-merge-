@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.common.constant.ApiPattern;
 import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
+import com.example.demo.dto.response.board.GetMyListResponseDto;
 import com.example.demo.service.BoardService;
 
 @RestController
@@ -25,6 +27,14 @@ public class BoardController {
     @GetMapping(GET_LIST)
     public ResponseDto<List<GetListResponseDto>> getList() {
         ResponseDto<List<GetListResponseDto>> response = boardService.getList();
+        return response;
+    }
+
+    @GetMapping(GET_MY_LIST)
+    public ResponseDto<List<GetMyListResponseDto>> getMyList(
+        @AuthenticationPrincipal String email
+    ) {
+        ResponseDto<List<GetMyListResponseDto>> response = boardService.getMyList(email);
         return response;
     }
 }
