@@ -1,12 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import MainHederAndMenus from './Views/Main/MainHeaderAndMenus/intex';
+import { Container, Grid } from '@mui/material'
+import MainHeader from './Views/Main/MainHeader/intex';
 
 function App() {
   return (
     <>
-    <MainHederAndMenus />
+    <Container>
+      <MainHeader />
+      <Grid>
+
+      </Grid>
+    </Container>
     </>
   );
 }

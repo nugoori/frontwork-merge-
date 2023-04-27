@@ -13,10 +13,9 @@ const darkTheme = createTheme({
     },
 });
 
-export default function MainHederAndMenus() {
+export default function MainHeader() {
     return(
         <>
-            <Grid container spacing={1}>
             <Box sx={{ flexGrow: 1 }} ml={20} mr={20}>
             <ThemeProvider theme={darkTheme}>
                 <AppBar position="static" color='primary' enableColorOnDark>
@@ -38,7 +37,6 @@ export default function MainHederAndMenus() {
                 </AppBar>
             </ThemeProvider>
             </Box>
-            </Grid>
         </>
     );
 }
