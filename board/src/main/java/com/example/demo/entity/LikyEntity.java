@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import com.example.demo.entity.primaryKey.LikyPK;
@@ -15,9 +16,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "Liky")
 @Table(name = "Liky")
+@IdClass(LikyPK.class)
 public class LikyEntity {
     @Id
-    private LikyPK likyPK;
+    private int boardNumber;
+    @Id
+    private String userEmail;
     private String UserNickname;
     private String userProfileUrl;
 }

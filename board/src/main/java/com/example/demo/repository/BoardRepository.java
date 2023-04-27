@@ -9,7 +9,7 @@ import com.example.demo.entity.BoardEntity;
 
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity, Integer>{
-    public List<BoardEntity> findByOrderByBoardWriteDatetimeDesc();
+    public List<BoardEntity> findByOrderByBoardWriteTimeDesc();
 
-    public List<BoardEntity> findByWriterEmailOrderByBoardWriteDatetimeDesc(String writerEmail);
+    public List<BoardEntity> findByWriterEmailOrderByBoardWriteTimeDesc(String writerEmail);
 }
