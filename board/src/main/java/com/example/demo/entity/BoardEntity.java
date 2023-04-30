@@ -56,4 +56,8 @@ public class BoardEntity {
         this.likeCount = 0;
         this.viewCount = 0;
     }
+
+    public void patchProfile(String email) {
+        this.writerProfileUrl = email;
+    }
 }

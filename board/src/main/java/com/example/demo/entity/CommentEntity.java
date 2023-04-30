@@ -25,4 +25,8 @@ public class CommentEntity {
     private String writerProfileUrl;
     private String writerDate;
     private String commentContent;
+
+    public void patchProfile(String profile) {
+        this.writerProfileUrl = profile;
+    }
 }

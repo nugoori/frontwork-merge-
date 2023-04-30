@@ -3,10 +3,12 @@ package com.example.demo.service.implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.request.user.PatchProfileDto;
 import com.example.demo.dto.request.user.ValidateEmailDto;
 import com.example.demo.dto.request.user.ValidateNicknameDto;
 import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.user.GetUserResponseDto;
+import com.example.demo.dto.response.user.PatchProfileResponseDto;
 import com.example.demo.dto.response.user.ValidateEmailResponseDto;
 import com.example.demo.dto.response.user.ValidateNicknameResponseDto;
 import com.example.demo.entity.UserEntity;
@@ -66,6 +68,27 @@ public class UserServiceImplements implements UserService {
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
         
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    public ResponseDto<PatchProfileResponseDto> patchProfile(String email, PatchProfileDto dto) {
+        PatchProfileResponseDto data = null;
+
+        String profile = dto.getProfile();
+
+        try {
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null)
+                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
+
+            userEntity.setProfile(profile);
+            userRepository.save(userEntity);
+
+            data = new PatchProfileResponseDto(userEntity);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
