@@ -1,5 +1,6 @@
 package com.example.demo.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
 import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
+import com.example.demo.dto.response.board.GetMyLikeListResponseDto;
 import com.example.demo.dto.response.board.GetMyListResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
@@ -35,7 +37,7 @@ public class BoardServiceImplements implements BoardService {
     @Autowired LikyRepository likyRepository;
     @Autowired BoardHasProductRepository boardHasProductRepository;
 
-    // 게시물 작성하기
+    //? 게시물 작성하기
     public ResponseDto<PostBoardResponseDto> postBoard(String email, PostBoardDto dto) {
         PostBoardResponseDto data = null;
 
@@ -70,7 +72,7 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    // 게시물 리스트 가져오기
+    //? 게시물 리스트 가져오기
     public ResponseDto<List<GetListResponseDto>> getList() {
         List<GetListResponseDto> data = null;
 
@@ -85,7 +87,7 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    // 자신이 작성한 게시물 가져오기
+    //? 자신이 작성한 게시물 가져오기
     public ResponseDto<List<GetMyListResponseDto>> getMyList(String email) {
         List<GetMyListResponseDto> data = null;
 
@@ -99,7 +101,7 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    // 작성된 계시물 수정하기
+    //? 작성된 계시물 수정하기
     public ResponseDto<PatchBoardResponseDto> patchBoard(String email, PatchBoardDto dto) {
         PatchBoardResponseDto data = null;
 
@@ -128,5 +130,41 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    //? 자신이 좋아요누른 게시물을 리스트 형태로 들고옴
+    public ResponseDto<List<GetMyLikeListResponseDto>> myLikeList(String email) {
+        List<GetMyLikeListResponseDto> data = new ArrayList<>();
+        GetMyLikeListResponseDto getMyLikeListResponseDto = null;
+        
+        List<LikyEntity> likyEntityList = new ArrayList<>();
+        BoardEntity boardEntity = null;
+        
+        int boardNumber = 0;
+        
+        try {
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
+
+            likyEntityList = likyRepository.findByUserEmail(email);
+            int forSize = likyEntityList.size();
+
+            for (int i = 0; i < forSize; i++) {
+                boardNumber = likyEntityList.get(i).getBoardNumber();
+                boardEntity = boardRepository.findByBoardNumber(boardNumber);
+
+                int boardEntityNumber = boardEntity.getBoardNumber();
+                String boardEntityImgUrl1 = boardEntity.getBoardImgUrl1();
+                getMyLikeListResponseDto = new GetMyLikeListResponseDto(boardEntityNumber, boardEntityImgUrl1);
+
+                data.add(i, getMyLikeListResponseDto);
+            }
+
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
     
 }   

@@ -11,4 +11,6 @@ import com.example.demo.entity.primaryKey.LikyPK;
 @Repository
 public interface LikyRepository extends JpaRepository<LikyEntity, LikyPK> {
     public List<LikyEntity> findByBoardNumber(int boardNumber);
+
+    public List<LikyEntity> findByUserEmail(String userEmail);
 }
