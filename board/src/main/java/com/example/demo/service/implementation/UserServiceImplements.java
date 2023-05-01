@@ -39,6 +39,7 @@ public class UserServiceImplements implements UserService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    // 이메일 중복체크
     public ResponseDto<ValidateEmailResponseDto> validateEmail(ValidateEmailDto dto) {
         ValidateEmailResponseDto data = null;
 
@@ -55,6 +56,7 @@ public class UserServiceImplements implements UserService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    // 닉네임 중복 체크
     public ResponseDto<ValidateNicknameResponseDto> validateNickname(ValidateNicknameDto dto) {
         ValidateNicknameResponseDto data = null;
 
@@ -71,6 +73,7 @@ public class UserServiceImplements implements UserService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    // 프로필 수정
     public ResponseDto<PatchProfileResponseDto> patchProfile(String email, PatchProfileDto dto) {
         PatchProfileResponseDto data = null;
 

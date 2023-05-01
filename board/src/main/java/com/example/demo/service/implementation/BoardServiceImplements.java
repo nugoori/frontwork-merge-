@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.constant.ResponseMessage;
+import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
 import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
 import com.example.demo.dto.response.board.GetMyListResponseDto;
+import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
 import com.example.demo.entity.BoardEntity;
 import com.example.demo.entity.CommentEntity;
@@ -68,6 +70,7 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    // 게시물 리스트 가져오기
     public ResponseDto<List<GetListResponseDto>> getList() {
         List<GetListResponseDto> data = null;
 
@@ -82,6 +85,7 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    // 자신이 작성한 게시물 가져오기
     public ResponseDto<List<GetMyListResponseDto>> getMyList(String email) {
         List<GetMyListResponseDto> data = null;
 
@@ -92,6 +96,35 @@ public class BoardServiceImplements implements BoardService {
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    // 작성된 계시물 수정하기
+    public ResponseDto<PatchBoardResponseDto> patchBoard(String email, PatchBoardDto dto) {
+        PatchBoardResponseDto data = null;
+
+        int boardNumber = dto.getBoardNumber();
+        
+        try {
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+            
+            boolean isMatch = email.equals(boardEntity.getWriterEmail());
+            if (!isMatch) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            List<CommentEntity> commentEntity = commentRepository.findByBoardNumberOrderByWriterDateDesc(boardNumber);
+            List<LikyEntity> likyEntity = likyRepository.findByBoardNumber(boardNumber);
+
+            boardEntity.patch(dto);
+            boardRepository.save(boardEntity);
+
+            data = new PatchBoardResponseDto(boardEntity, commentEntity, likyEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 

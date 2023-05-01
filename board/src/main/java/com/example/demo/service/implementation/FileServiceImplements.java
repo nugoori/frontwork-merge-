@@ -44,7 +44,6 @@ public class FileServiceImplements implements FileService {
 
     }
 
-    // 파일 다운로드 부문은 아직 쓰지 않을 것.
     public Resource getFile(String fileName) {
 
         Resource resource = null;

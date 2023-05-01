@@ -9,7 +9,12 @@ import com.example.demo.entity.BoardEntity;
 
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity, Integer>{
+    // 게시물 작성 시간 순으로 리스트 가져올거
     public List<BoardEntity> findByOrderByBoardWriteTimeDesc();
 
+    // 자신이 작성한 게시물 시간순, 리스트 형태로 가져옴
     public List<BoardEntity> findByWriterEmailOrderByBoardWriteTimeDesc(String writerEmail);
+
+    // 게시물 고유번호 대조 후 수정, 삭제때 씀
+    public BoardEntity findByBoardNumber(int boardNumber);
 }
