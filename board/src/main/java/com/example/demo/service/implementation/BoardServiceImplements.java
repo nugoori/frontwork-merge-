@@ -13,6 +13,7 @@ import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
 import com.example.demo.dto.response.board.GetMyLikeListResponseDto;
 import com.example.demo.dto.response.board.GetMyListResponseDto;
+import com.example.demo.dto.response.board.GetSearchTagResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
 import com.example.demo.entity.BoardEntity;
@@ -167,4 +168,28 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
     
+    //? 검색기능
+    public ResponseDto<List<GetSearchTagResponseDto>> searchTag(String tag) {
+        List<GetSearchTagResponseDto> data = new ArrayList<>();
+        GetSearchTagResponseDto getSearchTagResponseDto = null;
+        int boardNumber = 0;
+        String boardImgUrl1 = null;
+
+        try {
+            List<BoardEntity> boardEntityList = boardRepository.findByTag(tag);
+            int boardEntityListSize = boardEntityList.size();
+            for(int i = 0; i < boardEntityListSize; i++) {
+                boardNumber = boardEntityList.get(i).getBoardNumber();
+                boardImgUrl1 = boardEntityList.get(i).getBoardImgUrl1();
+                getSearchTagResponseDto = new GetSearchTagResponseDto(boardNumber, boardImgUrl1);
+                data.add(i, getSearchTagResponseDto);
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
 }   

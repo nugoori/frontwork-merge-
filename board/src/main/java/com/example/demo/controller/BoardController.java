@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
 import com.example.demo.dto.response.board.GetMyLikeListResponseDto;
 import com.example.demo.dto.response.board.GetMyListResponseDto;
+import com.example.demo.dto.response.board.GetSearchTagResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
 import com.example.demo.service.BoardService;
@@ -33,6 +35,7 @@ public class BoardController {
 
     private final String GET_LIST = "/list";
     private final String GET_MY_LIST ="/my-list";
+    private final String GET_SEARCH_TAG = "/search-tag/{tag}";
     
     private final String PATCH_BOARD = "";
     private final String POST_LIKE_LIST = "/like-list";
@@ -66,6 +69,12 @@ public class BoardController {
     @PostMapping(POST_LIKE_LIST)
     public ResponseDto<List<GetMyLikeListResponseDto>> myLikeList(@AuthenticationPrincipal String email) {
         ResponseDto<List<GetMyLikeListResponseDto>> response = boardService.myLikeList(email);
+        return response;
+    }
+    
+    @GetMapping(GET_SEARCH_TAG)
+    public ResponseDto<List<GetSearchTagResponseDto>> searchTag(@PathVariable("tag")String tag) {
+        ResponseDto<List<GetSearchTagResponseDto>> response = boardService.searchTag(tag);
         return response;
     }
 }

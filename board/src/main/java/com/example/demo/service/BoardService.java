@@ -10,6 +10,7 @@ import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
 import com.example.demo.dto.response.board.GetMyLikeListResponseDto;
 import com.example.demo.dto.response.board.GetMyListResponseDto;
+import com.example.demo.dto.response.board.GetSearchTagResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
 
@@ -29,4 +30,6 @@ public interface BoardService {
 
     // 작성자가 좋아요를 누른 게시물 가져오기
     public ResponseDto<List<GetMyLikeListResponseDto>> myLikeList(String email);
+
+    public ResponseDto<List<GetSearchTagResponseDto>> searchTag(String tag);
 }
