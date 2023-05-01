@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.example.demo.common.constant.ApiPattern;
 import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
 import com.example.demo.dto.response.ResponseDto;
+import com.example.demo.dto.response.board.DeleteBoardResponseDto;
 import com.example.demo.dto.response.board.GetBoardResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
 import com.example.demo.dto.response.board.GetMyLikeListResponseDto;
@@ -45,6 +47,8 @@ public class BoardController {
     
     private final String PATCH_BOARD = "";
     private final String POST_LIKE_LIST = "/like-list";
+
+    private final String DELETE_BOARD = "/{boardNumber}";
     
     
     @PostMapping(POST_BOARD)
@@ -104,6 +108,16 @@ public class BoardController {
     @GetMapping(GET_TOP3_LIST)
     public ResponseDto<List<GetTop3ListResponseDto>> getTop3List() {
         ResponseDto<List<GetTop3ListResponseDto>> response = boardService.getTop3List();
+        return response;
+    }
+    
+    //게시물 삭제
+    @DeleteMapping(DELETE_BOARD)
+    public ResponseDto<DeleteBoardResponseDto> deleteBoard(
+        @AuthenticationPrincipal String email,
+        @PathVariable("boardNumber") int boardNumber
+    ) {
+        ResponseDto<DeleteBoardResponseDto> response = boardService.deleteBoard(email, boardNumber);
         return response;
     }
 }

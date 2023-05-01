@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
 import com.example.demo.dto.response.ResponseDto;
+import com.example.demo.dto.response.board.DeleteBoardResponseDto;
 import com.example.demo.dto.response.board.GetBoardResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
 import com.example.demo.dto.response.board.GetMyLikeListResponseDto;
@@ -45,4 +46,7 @@ public interface BoardService {
 
     // 특정 게시물
     public ResponseDto<GetBoardResponseDto> getBoard(int boardNumber);
+
+    // 게시물 삭제
+    public ResponseDto<DeleteBoardResponseDto> deleteBoard(String email, int boardNumber);
 }

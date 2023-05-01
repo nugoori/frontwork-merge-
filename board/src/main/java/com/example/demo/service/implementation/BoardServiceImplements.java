@@ -14,6 +14,7 @@ import com.example.demo.common.constant.ResponseMessage;
 import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
 import com.example.demo.dto.response.ResponseDto;
+import com.example.demo.dto.response.board.DeleteBoardResponseDto;
 import com.example.demo.dto.response.board.GetBoardResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
 import com.example.demo.dto.response.board.GetMyLikeListResponseDto;
@@ -255,6 +256,31 @@ public class BoardServiceImplements implements BoardService {
     public ResponseDto<GetBoardResponseDto> getBoard(int boardNumber) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getBoard'");
+    }
+
+    public ResponseDto<DeleteBoardResponseDto> deleteBoard(String email, int boardNumber) {
+
+        DeleteBoardResponseDto data = null; 
+
+        try {
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+
+            boolean isEqualWriter = email.equals(boardEntity.getWriterEmail());
+            if (!isEqualWriter) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            commentRepository.deleteByBoardNumber(boardNumber);
+            likyRepository.deleteByBoardNumber(boardNumber);
+
+            boardRepository.delete(boardEntity);
+            data = new DeleteBoardResponseDto(true);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
 }   
