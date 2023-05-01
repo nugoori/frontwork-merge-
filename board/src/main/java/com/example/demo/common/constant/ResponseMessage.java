@@ -7,6 +7,7 @@ public interface ResponseMessage {
 
     public static final String NOT_EXIST_USER = "Dose Not Exist User.";
     public static final String NOT_EXIST_BOARD = "Does Not Exist Board.";
+    public static final String NOT_EXIST_PRODUCT = "Does Not Exist Product.";
 
     public static final String NOT_PERMISSION = "Do not Have Permission.";
 

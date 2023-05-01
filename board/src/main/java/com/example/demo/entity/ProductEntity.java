@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.example.demo.dto.request.product.PatchProductDto;
 import com.example.demo.dto.request.product.PostProductDto;
 
 import lombok.AllArgsConstructor;
@@ -31,5 +32,12 @@ public class ProductEntity {
         this.productPrice = dto.getProductPrice();
         this.productUrl = dto.getProductUrl();
         this.productImgUrl = dto.getProductImgUrl();
+    }
+
+    public void patch(PatchProductDto dto) {
+        this.productName = dto.getProductName();
+        this.productImgUrl = dto.getProductImgUrl();
+        this.productPrice = dto.getProductPrice();
+        this.productUrl = dto.getProductUrl();
     }
 }
