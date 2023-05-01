@@ -35,7 +35,7 @@ public class BoardController {
     private final String GET_MY_LIST ="/my-list";
     
     private final String PATCH_BOARD = "";
-    private final String LIKE_LIST = "/like-list";
+    private final String POST_LIKE_LIST = "/like-list";
     
     @PostMapping(POST_BOARD)
     public ResponseDto<PostBoardResponseDto> postBoard(@AuthenticationPrincipal String email, @RequestBody PostBoardDto requestBody) {
@@ -63,7 +63,7 @@ public class BoardController {
         return response;
     }
     
-    @PostMapping(LIKE_LIST)
+    @PostMapping(POST_LIKE_LIST)
     public ResponseDto<List<GetMyLikeListResponseDto>> myLikeList(@AuthenticationPrincipal String email) {
         ResponseDto<List<GetMyLikeListResponseDto>> response = boardService.myLikeList(email);
         return response;

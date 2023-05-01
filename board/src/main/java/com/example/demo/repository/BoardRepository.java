@@ -17,4 +17,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer>{
 
     // 게시물 고유번호 대조 후 수정, 삭제때 씀
     public BoardEntity findByBoardNumber(int boardNumber);
+
+    public List<BoardEntity> findByWriterEmail(String writerEmail);
 }

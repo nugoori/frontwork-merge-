@@ -33,4 +33,8 @@ public class UserEntity {
         this.weight = dto.getWeight();
         this.gender = dto.getGender();
     }
+
+    public void patchProfile(String profileUrl) {
+        this.profile = profileUrl;
+    }
 }
