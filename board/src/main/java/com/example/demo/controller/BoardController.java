@@ -16,10 +16,13 @@ import com.example.demo.common.constant.ApiPattern;
 import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
 import com.example.demo.dto.response.ResponseDto;
+import com.example.demo.dto.response.board.GetBoardResponseDto;
 import com.example.demo.dto.response.board.GetListResponseDto;
 import com.example.demo.dto.response.board.GetMyLikeListResponseDto;
-import com.example.demo.dto.response.board.GetMyListResponseDto;
+import com.example.demo.dto.response.board.PostMyListResponseDto;
 import com.example.demo.dto.response.board.GetSearchTagResponseDto;
+import com.example.demo.dto.response.board.GetTop15SearchWordResponseDto;
+import com.example.demo.dto.response.board.GetTop3ListResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
 import com.example.demo.service.BoardService;
@@ -36,9 +39,13 @@ public class BoardController {
     private final String GET_LIST = "/list";
     private final String GET_MY_LIST ="/my-list";
     private final String GET_SEARCH_TAG = "/search-tag/{tag}";
+    private final String GET_BOARD = "/{boardNumber}";
+    private final String GET_TOP3_LIST = "/top3-list";
+    private final String GET_TOP15_SEARCH_WORD = "/top15-search-word";
     
     private final String PATCH_BOARD = "";
     private final String POST_LIKE_LIST = "/like-list";
+    
     
     @PostMapping(POST_BOARD)
     public ResponseDto<PostBoardResponseDto> postBoard(@AuthenticationPrincipal String email, @RequestBody PostBoardDto requestBody) {
@@ -53,10 +60,10 @@ public class BoardController {
     }
 
     @GetMapping(GET_MY_LIST)
-    public ResponseDto<List<GetMyListResponseDto>> getMyList(
+    public ResponseDto<List<PostMyListResponseDto>> getMyList(
         @AuthenticationPrincipal String email
     ) {
-        ResponseDto<List<GetMyListResponseDto>> response = boardService.getMyList(email);
+        ResponseDto<List<PostMyListResponseDto>> response = boardService.getMyList(email);
         return response;
     }
 
@@ -75,6 +82,28 @@ public class BoardController {
     @GetMapping(GET_SEARCH_TAG)
     public ResponseDto<List<GetSearchTagResponseDto>> searchTag(@PathVariable("tag")String tag) {
         ResponseDto<List<GetSearchTagResponseDto>> response = boardService.searchTag(tag);
+        return response;
+    }
+
+    //특정게시물 가져오기
+    @GetMapping(GET_BOARD)
+    public ResponseDto<GetBoardResponseDto> getBoard(
+        @PathVariable("boardNumber") int boardNumber
+    ) {
+        ResponseDto<GetBoardResponseDto> response = boardService.getBoard(boardNumber);
+        return response;
+    }
+
+    //인기검색어15개 리스트 가져오기
+    @GetMapping(GET_TOP15_SEARCH_WORD)
+    public ResponseDto<GetTop15SearchWordResponseDto> getTop15SearchWord() {
+        ResponseDto<GetTop15SearchWordResponseDto> response = boardService.getTop15SearchWord();
+        return response;
+    }
+    //좋아요 상위3개 리스트 가져오기
+    @GetMapping(GET_TOP3_LIST)
+    public ResponseDto<List<GetTop3ListResponseDto>> getTop3List() {
+        ResponseDto<List<GetTop3ListResponseDto>> response = boardService.getTop3List();
         return response;
     }
 }

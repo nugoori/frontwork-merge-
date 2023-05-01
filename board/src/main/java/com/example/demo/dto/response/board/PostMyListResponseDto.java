@@ -12,21 +12,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetMyListResponseDto {
+public class PostMyListResponseDto {
     private int boardNumber;
     private String boardImgUrl;
 
-    public GetMyListResponseDto(BoardEntity boardEntity) {
+    public PostMyListResponseDto(BoardEntity boardEntity) {
         this.boardNumber = boardEntity.getBoardNumber();
         this.boardImgUrl = boardEntity.getBoardImgUrl1();
     }
 
-    public static List<GetMyListResponseDto> copyList(List<BoardEntity> boardEntityList) {
+    public static List<PostMyListResponseDto> copyList(List<BoardEntity> boardEntityList) {
 
-        List<GetMyListResponseDto> list = new ArrayList<>();
+        List<PostMyListResponseDto> list = new ArrayList<>();
 
         for (BoardEntity boardEntity: boardEntityList) {
-            GetMyListResponseDto dto = new GetMyListResponseDto(boardEntity);
+            PostMyListResponseDto dto = new PostMyListResponseDto(boardEntity);
             list.add(dto);
         }
         return list;

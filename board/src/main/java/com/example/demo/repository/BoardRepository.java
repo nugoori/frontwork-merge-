@@ -21,4 +21,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer>{
     public List<BoardEntity> findByWriterEmail(String writerEmail);
 
     public List<BoardEntity> findByTag(String tag);
+
+    public List<BoardEntity> findTop3ByBoardWriteTimeGreaterThanOrderByLikeCountDesc(String aWeekAgo);
 }
