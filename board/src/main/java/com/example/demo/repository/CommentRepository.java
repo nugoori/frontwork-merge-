@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.CommentEntity;
 
@@ -13,5 +14,6 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Integer>
 
     public List<CommentEntity> findByWriterEmail(String email);
 
-    public List<CommentEntity> deleteByBoardNumber(int boardNumber);
+    @Transactional
+    public void deleteByBoardNumber(int boardNumber);
 }

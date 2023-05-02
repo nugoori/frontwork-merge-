@@ -14,6 +14,7 @@ import com.example.demo.common.constant.ApiPattern;
 import com.example.demo.dto.request.product.PatchProductDto;
 import com.example.demo.dto.request.product.PostProductDto;
 import com.example.demo.dto.response.ResponseDto;
+import com.example.demo.dto.response.product.DeleteProductResponseDto;
 import com.example.demo.dto.response.product.PatchProductResponseDto;
 import com.example.demo.dto.response.product.PostProductResponseDto;
 import com.example.demo.service.ProductService;
@@ -26,6 +27,7 @@ public class ProductController {
     
     private final String POST_PRODUCT = "/post-product";
     private final String PATCH_PRODUCT = "/patch-product";
+    private final String DELETE_PRODUCT = "/{productNumber}";
 
     @PostMapping(POST_PRODUCT)
     public ResponseDto<PostProductResponseDto> postProduct(@AuthenticationPrincipal String email, @RequestBody PostProductDto requestBody) {
@@ -38,7 +40,16 @@ public class ProductController {
         @AuthenticationPrincipal String email,
         @RequestBody PatchProductDto dto
     ) {
-        ResponseDto<PatchProductResponseDto> response = productService.patchProductResponseDto(email, dto);
+        ResponseDto<PatchProductResponseDto> response = productService.patchProduct(email, dto);
+        return response;
+    }
+
+    @DeleteMapping(DELETE_PRODUCT)
+    private ResponseDto<DeleteProductResponseDto> deleteProduct(
+        @AuthenticationPrincipal String email,
+        @PathVariable("productNumber") int productNumber
+    ) { 
+        ResponseDto<DeleteProductResponseDto> response = productService.deleteProduct(email, productNumber);
         return response;
     }
 

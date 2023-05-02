@@ -7,6 +7,7 @@ import com.example.demo.common.constant.ResponseMessage;
 import com.example.demo.dto.request.product.PatchProductDto;
 import com.example.demo.dto.request.product.PostProductDto;
 import com.example.demo.dto.response.ResponseDto;
+import com.example.demo.dto.response.product.DeleteProductResponseDto;
 import com.example.demo.dto.response.product.PatchProductResponseDto;
 import com.example.demo.dto.response.product.PostProductResponseDto;
 import com.example.demo.entity.BoardEntity;
@@ -47,7 +48,7 @@ public class ProductServiceImplements implements ProductService{
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
 
     }
-    public ResponseDto<PatchProductResponseDto> patchProductResponseDto(String email , PatchProductDto dto) {
+    public ResponseDto<PatchProductResponseDto> patchProduct(String email , PatchProductDto dto) {
         
         PatchProductResponseDto data = null;
 
@@ -76,5 +77,26 @@ public class ProductServiceImplements implements ProductService{
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
+
+    public ResponseDto<DeleteProductResponseDto> deleteProduct(String email, int productNumber) {
+
+        DeleteProductResponseDto data = null;
+    
+        try {
+    
+            ProductEntity productEntity = productRepository.findByProductNumber(productNumber);
+    
+    
+            productRepository.delete(productEntity);
+    
+            data = new DeleteProductResponseDto(true);
+    
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+    
 
 }

@@ -217,7 +217,7 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    // 인기 게시물 3개
+    //? 인기 게시물 3개
     public ResponseDto<List<GetTop3ListResponseDto>> getTop3List() {
         
         List<GetTop3ListResponseDto> data = null;
@@ -238,7 +238,7 @@ public class BoardServiceImplements implements BoardService {
     
     }
 
-    // 인기 검색어
+    //? 인기 검색어
     public ResponseDto<GetTop15SearchWordResponseDto> getTop15SearchWord() {
         GetTop15SearchWordResponseDto data = null;
     
@@ -253,9 +253,30 @@ public class BoardServiceImplements implements BoardService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    //? 특정 게시물 가져오기
     public ResponseDto<GetBoardResponseDto> getBoard(int boardNumber) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBoard'");
+
+        GetBoardResponseDto data = null;
+
+        try {
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+            List<LikyEntity> likyList = likyRepository.findByBoardNumber(boardNumber);
+            List<CommentEntity> commentList = commentRepository.findByBoardNumberOrderByWriterDateDesc(boardNumber);
+            
+            boardEntity.getViewCount();
+            boardRepository.save(boardEntity);
+
+            data = new GetBoardResponseDto(boardEntity, commentList, likyList);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+
     }
 
     public ResponseDto<DeleteBoardResponseDto> deleteBoard(String email, int boardNumber) {
