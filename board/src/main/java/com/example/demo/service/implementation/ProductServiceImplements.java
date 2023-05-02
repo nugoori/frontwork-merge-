@@ -11,8 +11,10 @@ import com.example.demo.dto.response.product.DeleteProductResponseDto;
 import com.example.demo.dto.response.product.PatchProductResponseDto;
 import com.example.demo.dto.response.product.PostProductResponseDto;
 import com.example.demo.entity.BoardEntity;
+import com.example.demo.entity.BoardHasProductEntity;
 import com.example.demo.entity.ProductEntity;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.repository.BoardHasProductRepository;
 import com.example.demo.repository.BoardRepository;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.UserRepository;
@@ -23,6 +25,7 @@ public class ProductServiceImplements implements ProductService{
     @Autowired private UserRepository userRepository;
     @Autowired private ProductRepository productRepository;
     @Autowired private BoardRepository boardRepository;
+    @Autowired private BoardHasProductRepository boardHasProductRepository;
 
     @Override
     public ResponseDto<PostProductResponseDto> postProduct(String email, PostProductDto dto) {
@@ -78,23 +81,36 @@ public class ProductServiceImplements implements ProductService{
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<DeleteProductResponseDto> deleteProduct(String email, int productNumber) {
-
+    public ResponseDto<DeleteProductResponseDto> deleteProduct(String email, int boardNumber, int productNumber) {
         DeleteProductResponseDto data = null;
-    
+
         try {
-    
-            ProductEntity productEntity = productRepository.findByProductNumber(productNumber);
-    
-    
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+
+            String userEmail = userEntity.getEmail();
+            boolean isMatch = boardEntity.getWriterEmail().equals(userEmail);
+            if (!isMatch) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            ProductEntity productEntity = productRepository.findById(productNumber);
+            if (productEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_PRODUCT);
+
+            BoardHasProductEntity boardHasProductEntity = boardHasProductRepository.findByProductNumber(productNumber);
+            if (boardHasProductEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_PRODUCT);
+
+            boardHasProductRepository.delete(boardHasProductEntity);
             productRepository.delete(productEntity);
-    
+
             data = new DeleteProductResponseDto(true);
-    
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
+
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
     

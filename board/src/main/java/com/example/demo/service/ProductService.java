@@ -12,5 +12,5 @@ public interface ProductService {
 
     public ResponseDto<PatchProductResponseDto> patchProduct(String email ,PatchProductDto dto);
 
-    public ResponseDto<DeleteProductResponseDto> deleteProduct(String email, int productNumber);
+    public ResponseDto<DeleteProductResponseDto> deleteProduct(String email,int boardNumber, int productNumber);
 }
