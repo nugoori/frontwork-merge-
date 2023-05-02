@@ -45,12 +45,12 @@ public class ProductController {
     }
 
     @DeleteMapping(DELETE_PRODUCT)
-    private ResponseDto<DeleteProductResponseDto> deleteProduct(
-        @AuthenticationPrincipal String email,
-        @PathVariable("boardNumber") int boardNumber,
-        @PathVariable("productNumber") int productNumber
-    ) { 
-        ResponseDto<DeleteProductResponseDto> response = productService.deleteProduct(email, productNumber);
+    public ResponseDto<DeleteProductResponseDto> deleteProduct(
+        @AuthenticationPrincipal String email, 
+        @PathVariable("boardNumber") int boardNumber, 
+        @PathVariable("productNumber") int productNumber) {
+    // public ResponseDto<DeleteProductResponseDto> deleteProduct(@AuthenticationPrincipal String email, DeleteProductDto requestBody) {
+        ResponseDto<DeleteProductResponseDto> response = productService.deleteProduct(email, boardNumber, productNumber);
         return response;
     }
 

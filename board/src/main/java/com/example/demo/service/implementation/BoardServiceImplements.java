@@ -25,6 +25,7 @@ import com.example.demo.dto.response.board.GetTop3ListResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
 import com.example.demo.entity.BoardEntity;
+import com.example.demo.entity.BoardHasProductEntity;
 import com.example.demo.entity.CommentEntity;
 import com.example.demo.entity.LikyEntity;
 import com.example.demo.entity.UserEntity;
@@ -280,16 +281,23 @@ public class BoardServiceImplements implements BoardService {
     }
 
     public ResponseDto<DeleteBoardResponseDto> deleteBoard(String email, int boardNumber) {
-
         DeleteBoardResponseDto data = null; 
 
         try {
-
             BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
             if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
 
             boolean isEqualWriter = email.equals(boardEntity.getWriterEmail());
             if (!isEqualWriter) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+
+            List<BoardHasProductEntity> boardHasProductEntityList = boardHasProductRepository.findByBoardNumber(boardNumber);
+            int entitySize = boardHasProductEntityList.size();
+            for (int i = 0; i < entitySize; i++) {
+                BoardHasProductEntity boardHasProductEntity = boardHasProductEntityList.get(i);
+                boardHasProductRepository.deleteByBoardNumber(boardHasProductEntity.getBoardNumber());
+                productRepository.deleteByProductNumber(boardHasProductEntity.getProductNumber());
+            }
 
             commentRepository.deleteByBoardNumber(boardNumber);
             likyRepository.deleteByBoardNumber(boardNumber);
