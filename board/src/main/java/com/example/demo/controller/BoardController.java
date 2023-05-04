@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.constant.ApiPattern;
+import com.example.demo.dto.request.board.LikeDto;
 import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
+import com.example.demo.dto.request.board.PostCommentDto;
 import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.DeleteBoardResponseDto;
 import com.example.demo.dto.response.board.GetBoardResponseDto;
@@ -25,8 +29,10 @@ import com.example.demo.dto.response.board.PostMyListResponseDto;
 import com.example.demo.dto.response.board.GetSearchTagResponseDto;
 import com.example.demo.dto.response.board.GetTop15SearchWordResponseDto;
 import com.example.demo.dto.response.board.GetTop3ListResponseDto;
+import com.example.demo.dto.response.board.LikeResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
+import com.example.demo.dto.response.board.PostCommentResponseDto;
 import com.example.demo.service.BoardService;
 
 @RestController
@@ -37,6 +43,8 @@ public class BoardController {
     private BoardService boardService;
 
     private final String POST_BOARD = "/post-board";
+    private final String POST_COMMENT = "/comment";
+    private final String LIKE = "/like";
 
     private final String GET_LIST = "/list";
     private final String GET_MY_LIST ="/my-list";
@@ -50,6 +58,23 @@ public class BoardController {
 
     private final String DELETE_BOARD = "/{boardNumber}";
     
+    @PostMapping(POST_COMMENT)
+    public ResponseDto<PostCommentResponseDto> postComment(  
+        @AuthenticationPrincipal String email,
+        @Valid @RequestBody PostCommentDto requestBody
+    ) {
+        ResponseDto<PostCommentResponseDto> response = boardService.postComment(email, requestBody);
+        return response;
+    }
+
+    @PostMapping(LIKE)
+    public ResponseDto<LikeResponseDto> like(
+        @AuthenticationPrincipal String email,
+        @Valid @RequestBody LikeDto requestBody
+    ) {
+        ResponseDto<LikeResponseDto> response = boardService.like(email, requestBody);
+        return response;
+    }
     
     @PostMapping(POST_BOARD)
     public ResponseDto<PostBoardResponseDto> postBoard(@AuthenticationPrincipal String email, @RequestBody PostBoardDto requestBody) {

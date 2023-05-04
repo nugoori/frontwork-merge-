@@ -22,10 +22,17 @@ public class LikyEntity {
     private int boardNumber;
     @Id
     private String userEmail;
-    private String UserNickname;
+    private String userNickname;
     private String userProfileUrl;
 
     public void patchProfile(String profileUrl) {
         this.userProfileUrl = profileUrl;
+    }
+
+    public LikyEntity(UserEntity userEntity, int boardNumber) {
+        this.userEmail = userEntity.getEmail();
+        this.boardNumber = boardNumber;
+        this.userNickname = userEntity.getNickname();
+        
     }
 }

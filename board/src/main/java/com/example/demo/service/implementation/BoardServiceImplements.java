@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.constant.ResponseMessage;
+import com.example.demo.dto.request.board.LikeDto;
 import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
+import com.example.demo.dto.request.board.PostCommentDto;
 import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.DeleteBoardResponseDto;
 import com.example.demo.dto.response.board.GetBoardResponseDto;
@@ -22,8 +24,10 @@ import com.example.demo.dto.response.board.PostMyListResponseDto;
 import com.example.demo.dto.response.board.GetSearchTagResponseDto;
 import com.example.demo.dto.response.board.GetTop15SearchWordResponseDto;
 import com.example.demo.dto.response.board.GetTop3ListResponseDto;
+import com.example.demo.dto.response.board.LikeResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
+import com.example.demo.dto.response.board.PostCommentResponseDto;
 import com.example.demo.entity.BoardEntity;
 import com.example.demo.entity.BoardHasProductEntity;
 import com.example.demo.entity.CommentEntity;
@@ -306,6 +310,75 @@ public class BoardServiceImplements implements BoardService {
             data = new DeleteBoardResponseDto(true);
 
         } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    public ResponseDto<PostCommentResponseDto> postComment(String email, PostCommentDto dto) {
+       
+        PostCommentResponseDto data = null;
+
+        int boardNumber = dto.getBoardNumber();
+
+        try {
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+
+            CommentEntity commentEntity = new CommentEntity(userEntity, dto);
+            commentRepository.save(commentEntity);
+
+            boardEntity.increaseCommentCount();
+            boardRepository.save(boardEntity);
+
+            List<CommentEntity> commentList = commentRepository.findByBoardNumber(boardNumber);
+            List<LikyEntity> likeList = likyRepository.findByBoardNumber(boardNumber);
+
+            data = new PostCommentResponseDto(boardEntity, likeList, commentList);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    @Override
+    public ResponseDto<LikeResponseDto> like(String email, LikeDto dto) {
+
+        LikeResponseDto data = null;
+
+        int boardNumber = dto.getBoardNumber();
+
+        try {
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+
+            LikyEntity likyEntity = likyRepository.findByUserEmailAndBoardNumber(email, boardNumber);
+            if (likyEntity == null) {
+                likyEntity = new LikyEntity(userEntity, boardNumber);
+                likyRepository.save(likyEntity);
+                boardEntity.increaseLikeCount();
+            } else {
+                likyRepository.delete(likyEntity);
+                boardEntity.decreaseLikeCount();
+            }
+            boardRepository.save(boardEntity);
+
+            List<CommentEntity> commentList = commentRepository.findByBoardNumber(boardNumber);
+            List<LikyEntity> likeList = likyRepository.findByBoardNumber(boardNumber);
+
+            data = new LikeResponseDto(boardEntity, likeList, commentList);
+
+        } 
+        catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }

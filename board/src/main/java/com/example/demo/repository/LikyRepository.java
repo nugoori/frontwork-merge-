@@ -15,6 +15,8 @@ public interface LikyRepository extends JpaRepository<LikyEntity, LikyPK> {
 
     public List<LikyEntity> findByUserEmail(String userEmail);
 
+    public LikyEntity findByUserEmailAndBoardNumber(String email, int boardNumber);
+
     @Transactional
     public void deleteByBoardNumber(int boardNumber);
 }

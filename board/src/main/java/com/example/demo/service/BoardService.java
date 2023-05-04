@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.request.board.LikeDto;
 import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
+import com.example.demo.dto.request.board.PostCommentDto;
 import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.DeleteBoardResponseDto;
 import com.example.demo.dto.response.board.GetBoardResponseDto;
@@ -15,8 +17,10 @@ import com.example.demo.dto.response.board.PostMyListResponseDto;
 import com.example.demo.dto.response.board.GetSearchTagResponseDto;
 import com.example.demo.dto.response.board.GetTop15SearchWordResponseDto;
 import com.example.demo.dto.response.board.GetTop3ListResponseDto;
+import com.example.demo.dto.response.board.LikeResponseDto;
 import com.example.demo.dto.response.board.PatchBoardResponseDto;
 import com.example.demo.dto.response.board.PostBoardResponseDto;
+import com.example.demo.dto.response.board.PostCommentResponseDto;
 
 @Service
 public interface BoardService {
@@ -49,4 +53,10 @@ public interface BoardService {
 
     // 게시물 삭제
     public ResponseDto<DeleteBoardResponseDto> deleteBoard(String email, int boardNumber);
+
+    // 댓글 기능
+    public ResponseDto<PostCommentResponseDto> postComment(String email, PostCommentDto dto);
+
+    // 좋아요 기능
+    public ResponseDto<LikeResponseDto> like(String email, LikeDto dto);
 }
