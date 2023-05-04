@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "ProductHasBaord")
-@Table(name = "ProductHasBoard")
+@Entity(name = "BoardHasProduct")
+@Table(name = "BoardHasProduct")
 @IdClass(BoardHasProductPK.class)
 public class BoardHasProductEntity {
     @Id
