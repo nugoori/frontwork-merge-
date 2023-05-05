@@ -269,11 +269,12 @@ public class BoardServiceImplements implements BoardService {
             if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
             List<LikyEntity> likyList = likyRepository.findByBoardNumber(boardNumber);
             List<CommentEntity> commentList = commentRepository.findByBoardNumberOrderByWriterDateDesc(boardNumber);
+            List<BoardHasProductEntity> productList = boardHasProductRepository.findByBoardNumber(boardNumber);
             
             boardEntity.getViewCount();
             boardRepository.save(boardEntity);
 
-            data = new GetBoardResponseDto(boardEntity, commentList, likyList);
+            data = new GetBoardResponseDto(boardEntity, commentList, likyList, productList);
 
         } catch (Exception exception) {
             exception.printStackTrace();
