@@ -13,7 +13,7 @@ export default function MainMenus() {
                 <Stack direction="row" spacing={2} >
                     <Paper sx={{ mt:5, width: 150, height: 300, backgroundColor: "#676767"}}>
                         <MenuList>
-                        <MenuItem>Prof</MenuItem>
+                        <MenuItem>Style</MenuItem>
                         <MenuItem>My account</MenuItem>
                         <MenuItem>Logout</MenuItem>
                         </MenuList>
