@@ -48,9 +48,9 @@ const useStore = create<ISignUpStore>((set) =>({
 
     signUpError: false,
     setSignUpError: (signUpError: boolean) => set((state) => ({...state, signUpError})),
-    emailValidate: null,
+    emailValidate: true,
     setEmailValidate: (emailValidate: boolean) => set((state) => ({...state, emailValidate})),
-    nicknameValidate: null,
+    nicknameValidate: true,
     setNicknameValidate: (nicknameValidate: boolean) => set((state) => ({...state, nicknameValidate}))
 }));
 
