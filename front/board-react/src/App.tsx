@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import { Container, Grid, } from '@mui/material'
-import MainHeader from './Views/Main/MainHeader/intex';
-import MainMenus from './Views/Main/MainMenus';
+import MainHeader from './views/Main/MainHeader/intex';
+import MainMenus from './views/Main/MainMenus';
 
 function App() {
   return (
