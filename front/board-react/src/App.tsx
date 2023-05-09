@@ -3,6 +3,7 @@ import './App.css';
 import { Container, Grid, } from '@mui/material'
 import MainHeader from './views/Main/MainHeader/intex';
 import MainMenus from './views/Main/MainMenus';
+import Authentication from './views';
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <Grid item xs={2.5} >
             <MainMenus />
         </Grid>
-      </Grid> 
+        <Authentication /> 
+      </Grid>
     </Container>
     </>
   );

@@ -63,8 +63,13 @@ public class UserServiceImplements implements UserService {
         String email = dto.getEmail();
 
         try {
-            boolean hasEmail = userRepository.existsByEmail(email);
-            data = new ValidateEmailResponseDto(!hasEmail);
+            boolean isExists = userRepository.existsByEmail(email);
+            if (isExists) {
+                data = new ValidateEmailResponseDto(true);
+            } else {
+                data = new ValidateEmailResponseDto(false);
+            }
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
@@ -80,8 +85,13 @@ public class UserServiceImplements implements UserService {
         String nickname = dto.getNickname();
 
         try {
-            boolean hasNickname = userRepository.existsByNickname(nickname);
-            data = new ValidateNicknameResponseDto(!hasNickname);
+            boolean isExists = userRepository.existsByNickname(nickname);
+            if (isExists) {
+                data = new ValidateNicknameResponseDto(true);
+            } else {
+                data = new ValidateNicknameResponseDto(false);
+            }
+            
         }catch (Exception exception){
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
