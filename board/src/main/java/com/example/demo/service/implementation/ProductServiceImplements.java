@@ -38,8 +38,8 @@ public class ProductServiceImplements implements ProductService{
             ProductEntity productEntity = new ProductEntity(dto);
             productRepository.save(productEntity);
 
-            int productNumber = productEntity.getProductNumber();
-            productEntity = productRepository.findById(productNumber);
+            int productNumber = productEntity.getProductNumber(); // 삭
+            productEntity = productRepository.findById(productNumber); // 삭
 
             data = new PostProductResponseDto(productEntity);
             

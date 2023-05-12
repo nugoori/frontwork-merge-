@@ -16,6 +16,6 @@ public interface SearchWordLogRepository extends JpaRepository<SearchWordLogEnti
                 "FROM Searchwordlog " + 
                 "GROUP BY search_word " + 
                 "ORDER BY count DESC " + 
-                "LIMIT 15", nativeQuery=true)
+                "LIMIT 15", nativeQuery=true) // 상수로 빼던 말던 상관 없
                 public List<SearchWordResultSet> findTop15();
 }

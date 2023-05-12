@@ -166,26 +166,21 @@ public class BoardServiceImplements implements BoardService {
         GetMyLikeListResponseDto getMyLikeListResponseDto = null;
         
         List<LikyEntity> likyEntityList = new ArrayList<>();
-        BoardEntity boardEntity = null;
-        
-        int boardNumber = 0;
         
         try {
             UserEntity userEntity = userRepository.findByEmail(email);
             if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
 
             likyEntityList = likyRepository.findByUserEmail(email);
-            int forSize = likyEntityList.size();
 
-            for (int i = 0; i < forSize; i++) {
-                boardNumber = likyEntityList.get(i).getBoardNumber();
-                boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            for (LikyEntity liky: likyEntityList) {
+                int boardNumber = liky.getBoardNumber();
+                BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
 
-                int boardEntityNumber = boardEntity.getBoardNumber();
                 String boardEntityImgUrl1 = boardEntity.getBoardImgUrl1();
-                getMyLikeListResponseDto = new GetMyLikeListResponseDto(boardEntityNumber, boardEntityImgUrl1);
+                getMyLikeListResponseDto = new GetMyLikeListResponseDto(boardNumber, boardEntityImgUrl1);
 
-                data.add(i, getMyLikeListResponseDto);
+                data.add(getMyLikeListResponseDto);
             }
 
 
@@ -201,17 +196,15 @@ public class BoardServiceImplements implements BoardService {
     public ResponseDto<List<GetSearchTagResponseDto>> searchTag(String tag) {
         List<GetSearchTagResponseDto> data = new ArrayList<>();
         GetSearchTagResponseDto getSearchTagResponseDto = null;
-        int boardNumber = 0;
-        String boardImgUrl1 = null;
 
         try {
             List<BoardEntity> boardEntityList = boardRepository.findByTag(tag);
-            int boardEntityListSize = boardEntityList.size();
-            for(int i = 0; i < boardEntityListSize; i++) {
-                boardNumber = boardEntityList.get(i).getBoardNumber();
-                boardImgUrl1 = boardEntityList.get(i).getBoardImgUrl1();
+
+            for(BoardEntity boardEntity: boardEntityList) {
+                int boardNumber = boardEntity.getBoardNumber();
+                String boardImgUrl1 = boardEntity.getBoardImgUrl1();
                 getSearchTagResponseDto = new GetSearchTagResponseDto(boardNumber, boardImgUrl1);
-                data.add(i, getSearchTagResponseDto);
+                data.add(getSearchTagResponseDto);
             }
 
         } catch (Exception exception) {
@@ -295,11 +288,8 @@ public class BoardServiceImplements implements BoardService {
             boolean isEqualWriter = email.equals(boardEntity.getWriterEmail());
             if (!isEqualWriter) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-
             List<BoardHasProductEntity> boardHasProductEntityList = boardHasProductRepository.findByBoardNumber(boardNumber);
-            int entitySize = boardHasProductEntityList.size();
-            for (int i = 0; i < entitySize; i++) {
-                BoardHasProductEntity boardHasProductEntity = boardHasProductEntityList.get(i);
+            for (BoardHasProductEntity boardHasProductEntity: boardHasProductEntityList) {  
                 boardHasProductRepository.deleteByBoardNumber(boardHasProductEntity.getBoardNumber());
                 productRepository.deleteByProductNumber(boardHasProductEntity.getProductNumber());
             }

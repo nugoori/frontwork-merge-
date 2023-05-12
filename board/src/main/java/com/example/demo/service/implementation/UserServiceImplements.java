@@ -113,28 +113,19 @@ public class UserServiceImplements implements UserService {
             userRepository.save(userEntity);
 
             List<BoardEntity> boardEntityList = boardRepository.findByWriterEmail(email);
-            int boardEntitySize = boardEntityList.size();
-            BoardEntity boardEntity = null;
-            for (int i = 0; i < boardEntitySize; i++) {
-                boardEntity = boardEntityList.get(i);
+            for (BoardEntity boardEntity: boardEntityList) { 
                 boardEntity.patchProfile(userProfile);
                 boardRepository.save(boardEntity);
             }
 
             List<CommentEntity> commentEntityList = commentRepository.findByWriterEmail(email);
-            int commentEntitySize = commentEntityList.size();
-            CommentEntity commentEntity = null;
-            for (int i = 0; i < commentEntitySize; i++) {
-                commentEntity = commentEntityList.get(i);
+            for (CommentEntity commentEntity: commentEntityList) {
                 commentEntity.patchProfile(userProfile);
                 commentRepository.save(commentEntity);
             }
 
             List<LikyEntity> likyEntityList = likyRepository.findByUserEmail(email);
-            int likyEntitySize = likyEntityList.size();
-            LikyEntity likyEntity = null;
-            for (int i = 0; i < likyEntitySize; i++) {
-                likyEntity = likyEntityList.get(i);
+            for (LikyEntity likyEntity: likyEntityList) {
                 likyEntity.patchProfile(userProfile);
                 likyRepository.save(likyEntity);
             }
