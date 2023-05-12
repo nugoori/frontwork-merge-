@@ -99,7 +99,7 @@ export default function SignUpCardView() {
             setEmail('');
             return;
         }
-        const validateFlag = data.status;
+        const validateFlag = data.result;
         console.log(validateFlag);
         if (validateFlag)  {
             setEmail('');
@@ -119,7 +119,7 @@ export default function SignUpCardView() {
             console.log(message);
             return;
         }
-        const validateFlag = data.status;
+        const validateFlag = data.result;
         if (validateFlag) {
             setNickname('');
             setNicknameValidate(validateFlag);

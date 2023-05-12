@@ -1,5 +1,5 @@
 interface validateEmailResponseDto {
-    status: boolean;
+    result: boolean;
 }
 
 export default validateEmailResponseDto;

@@ -1,5 +1,5 @@
 interface validateNicknameResponseDto {
-    status: boolean;
+    result: boolean;
 }
 
 export default validateNicknameResponseDto;
