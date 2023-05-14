@@ -2,15 +2,16 @@ import React, { useEffect } from 'react';
 import './App.css';
 import { Container, Grid, } from '@mui/material'
 import MainHeader from './views/Main/MainHeader/intex';
-import MainMenus from './views/Main/MainMenus';
+import MainMenus from './views/Menus';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useUserStore } from './stores';
 import { useCookies } from 'react-cookie';
 import { GET_USER_URL, authorizationHeader } from './constants/api';
 import axios, { AxiosResponse } from 'axios';
 import ResponseDto from './apis/response';
+import NavigationBar from './views/NavigationBar';
 
-const path = useLocation();
+// const path = useLocation();
   // const { setUser } = useUserStore();
   // const [cookies] = useCookies();
 
@@ -40,8 +41,9 @@ const path = useLocation();
 
 function App() {
   return (
-    <>
-      <Routes>
+    <Container>
+      <NavigationBar />
+      {/* <Routes>
         <Route path='/' element={(<Main />)} />
         <Route path='/auth' element={(<AuthenticationView />)} />
         <Route path='/myPage' element={(<MyPageView />)} />
@@ -52,8 +54,8 @@ function App() {
           <Route path='update/:boardNumber' element={(<BoardUpdateView />)} />
         </Route>
       </Routes>
-      { path.pathname !== '/auth' && (<Footer />) }
-    </>
+      { path.pathname !== '/auth' && (<Footer />) } */}
+    </Container>
   );
 }
 

@@ -1,7 +1,7 @@
 import { Box, MenuItem, MenuList, Paper, Stack } from "@mui/material";
 import React from "react";
 
-export default function MainMenus() {
+export default function Menus() {
     return (
         <>
             <Box sx={{ display:'flex',
