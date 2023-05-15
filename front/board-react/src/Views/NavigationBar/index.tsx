@@ -1,12 +1,15 @@
 import { AppBar, Box, Button, IconButton, InputBase, Toolbar, Typography, alpha, styled } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from "react-router-dom";
+
+const navigator = useNavigate();
 
 export default function NavigationBar() {
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static">
+                <AppBar position="static" sx={{backgroundColor: "#353535"}}>
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -28,8 +31,10 @@ export default function NavigationBar() {
                         <Button 
                             color="inherit" 
                             sx={{ pl: "15px", pr: "15px" }}
+                            onClick={() => navigator('/auth')}
                         >
-                            로그인</Button>
+                            로그인
+                        </Button>
                     </Toolbar>
                 </AppBar>
             </Box>
