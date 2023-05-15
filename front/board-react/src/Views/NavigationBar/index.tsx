@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from "react-router-dom";
 
-const navigator = useNavigate();
+// const navigator = useNavigate();
 
 export default function NavigationBar() {
     return (
@@ -31,7 +31,7 @@ export default function NavigationBar() {
                         <Button 
                             color="inherit" 
                             sx={{ pl: "15px", pr: "15px" }}
-                            onClick={() => navigator('/auth')}
+                            // onClick={() => navigator('/auth')}
                         >
                             로그인
                         </Button>

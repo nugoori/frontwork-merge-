@@ -11,7 +11,7 @@ export default function Menus() {
                     }}>
                 {/* <Card sx={{mt:5, width: 140, height: 300, backgroundColor: "#676767"}}> */}
                 <Stack direction="row" spacing={2} >
-                    <Paper sx={{ mt:5, width: 150, height: 300, backgroundColor: "#676767"}}>
+                    <Paper sx={{ mt:5, width: 120, height: 300, backgroundColor: "#676767"}}>
                         <MenuList>
                         <MenuItem>Style</MenuItem>
                         <MenuItem>My account</MenuItem>
