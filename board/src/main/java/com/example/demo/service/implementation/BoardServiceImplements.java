@@ -263,7 +263,14 @@ public class BoardServiceImplements implements BoardService {
             if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
             List<LikyEntity> likyList = likyRepository.findByBoardNumber(boardNumber);
             List<CommentEntity> commentList = commentRepository.findByBoardNumberOrderByWriterDateDesc(boardNumber);
-            List<BoardHasProductEntity> productList = boardHasProductRepository.findByBoardNumber(boardNumber);
+            List<BoardHasProductEntity> boardHasProductList = boardHasProductRepository.findByBoardNumber(boardNumber);
+            List<ProductEntity> productList = new ArrayList<>();
+
+            for (BoardHasProductEntity boardHasProductEntity : boardHasProductList) {
+                int productNumber = boardHasProductEntity.getProductNumber();
+                ProductEntity productEntity = productRepository.findById(productNumber);
+                productList.add(productEntity);
+            }
             
             boardEntity.getViewCount();
             boardRepository.save(boardEntity);
