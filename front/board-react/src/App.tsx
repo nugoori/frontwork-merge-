@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import './App.css';
 import { Box, Container, Grid, } from '@mui/material'
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -11,36 +11,40 @@ import NavigationBar from './views/NavigationBar';
 import Menus from './views/Menus';
 import { GetUserResponseDto } from './apis/response/user';
 import AuthenticationView from './views/AuthenticationView'
+import Main from './views/Main';
 
-// const path = useLocation();
-//   const { setUser } = useUserStore();
-//   const [cookies] = useCookies();
 
-// const getUser = (accessToken: string) => {
-//   axios.get(GET_USER_URL, authorizationHeader(accessToken))
-//   .then((response) => getUserResponseHandler(response))
-//   .catch((error) => getUserErrorHandler(error));
-// }
-
-// const getUserResponseHandler = (response: AxiosResponse<any, any>) => {
-//   const { result, message, data } = response.data as ResponseDto<any>;
-//   if (!result || !data) {
-//     return;
-//   }
-//   const user = data as GetUserResponseDto;
-//   setUser(user);
-// }
-
-// const getUserErrorHandler = (error: any) => {
-//   console.log(error.message);
-// }
-
-// useEffect(() => {
-//   const accessToken = cookies.accessToken;
-//   if (accessToken) getUser(accessToken);
-// }, [path]);
 
 function App() {
+
+  const path = useLocation();
+  const { setUser } = useUserStore();
+  const [cookies] = useCookies();
+
+const getUser = (accessToken: string) => {
+  axios.get(GET_USER_URL, authorizationHeader(accessToken))
+  .then((response) => getUserResponseHandler(response))
+  .catch((error) => getUserErrorHandler(error));
+}
+
+const getUserResponseHandler = (response: AxiosResponse<any, any>) => {
+  const { result, message, data } = response.data as ResponseDto<any>;
+  if (!result || !data) {
+    return;
+  }
+  const user = data as GetUserResponseDto;
+  setUser(user);
+}
+
+const getUserErrorHandler = (error: any) => {
+  console.log(error.message);
+}
+
+useEffect(() => {
+  const accessToken = cookies.accessToken;
+  if (accessToken) getUser(accessToken);
+}, [path]);
+
   return (
     <>
       <Box flexGrow={1}>
@@ -51,7 +55,7 @@ function App() {
           </Grid>
           <Grid xs={10}>
           <Routes>
-            {/* <Route path='/' element={(<Main />)} /> */}
+            <Route path='/' element={(<Main />)} />
             <Route path='/auth' element={(<AuthenticationView />)} />
             {/* <Route path='/myPage' element={(<MyPageView />)} /> */}
             {/* <Route path='/board'>
