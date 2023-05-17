@@ -23,4 +23,5 @@ public class PatchProductDto {
     private String productPrice;
     private String productUrl;
     private String productImgUrl;
+
 }

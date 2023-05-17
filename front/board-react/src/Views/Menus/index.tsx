@@ -7,7 +7,7 @@ export default function Menus() {
             <Box sx={{ display:'flex',
                         justifyContent: 'center',
                         backgroundColor: '#323232',
-                        height: 1500,
+                        height: '100%',
                     }}>
                 {/* <Card sx={{mt:5, width: 140, height: 300, backgroundColor: "#676767"}}> */}
                 <Stack direction="row" spacing={2} >

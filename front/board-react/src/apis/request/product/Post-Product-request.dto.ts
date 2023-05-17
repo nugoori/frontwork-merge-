@@ -1,8 +1,8 @@
-interface Product {
-    productNumber? : number;
+interface PostProductDto {
     productName : string;
     productPrice : string;
     productUrl : string;
     productImgUrl : string; 
 }
-export default Product;
+
+export default PostProductDto;

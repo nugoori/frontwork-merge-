@@ -30,7 +30,6 @@ export const POST_LIKE_LIST_URL = `${HOST}api/board/like-list`;
 export const LIKE_URL = `${HOST}api/board/like`;
 
 export const POST_PRODUCT_URL = `${HOST}product/post-product`;
-
 export const PATCH_BOARD_URL = `${HOST}api/board/`;
 export const PATCH_PRODUCT_URL = `${HOST}product/patch-product`;
 

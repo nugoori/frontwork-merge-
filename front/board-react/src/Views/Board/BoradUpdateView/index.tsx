@@ -9,9 +9,10 @@ import CreateIcon from '@mui/icons-material/Create';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 import { useUserStore } from "src/stores";
-import { FILE_UPLOAD_URL, GET_BOARD_URL, GET_PRODUCT_URL, PATCH_BOARD_URL, PATCH_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
 import ResponseDto from 'src/apis/response';
-import { GetBoardResponseDto, GetProductResponseDto } from 'src/apis/response/board';
+import { FILE_UPLOAD_URL, GET_BOARD_URL, GET_PRODUCT_URL, PATCH_BOARD_URL, PATCH_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
+import { GetBoardResponseDto } from 'src/apis/response/board';
+import { GetProductResponseDto } from 'src/apis/response/product';
 import { PatchBoardDto, PatchProductDto } from 'src/apis/request/board';
 
 export default function BoardUpdateView() {

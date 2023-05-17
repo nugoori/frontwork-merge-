@@ -16,6 +16,7 @@ public class PostProductResponseDto {
     private String productUrl;
     private String productImgUrl;
 
+
     public PostProductResponseDto(ProductEntity productEntity) {
         this.productNumber = productEntity.getProductNumber();
         this.productName = productEntity.getProductName();

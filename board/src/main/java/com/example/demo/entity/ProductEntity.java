@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.example.demo.dto.request.board.PostBoardProduct;
 import com.example.demo.dto.request.product.PatchProductDto;
 import com.example.demo.dto.request.product.PostProductDto;
 
@@ -26,18 +27,29 @@ public class ProductEntity {
     private String productPrice;
     private String productUrl;
     private String productImgUrl;
+  
 
     public ProductEntity(PostProductDto dto) {
         this.productName = dto.getProductName();
         this.productPrice = dto.getProductPrice();
         this.productUrl = dto.getProductUrl();
         this.productImgUrl = dto.getProductImgUrl();
+
+    }
+
+    public ProductEntity(PostBoardProduct postBoardProduct) {
+        this.productName = postBoardProduct.getProductName();
+        this.productPrice = postBoardProduct.getProductPrice();
+        this.productUrl = postBoardProduct.getProductUrl();
+        this.productImgUrl = postBoardProduct.getProductImgUrl();
+
     }
 
     public void patch(PatchProductDto dto) {
         this.productName = dto.getProductName();
-        this.productImgUrl = dto.getProductImgUrl();
         this.productPrice = dto.getProductPrice();
         this.productUrl = dto.getProductUrl();
+        this.productImgUrl = dto.getProductImgUrl();
+
     }
 }

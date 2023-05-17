@@ -1,5 +1,7 @@
 package com.example.demo.dto.request.board;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,4 +15,6 @@ public class PostBoardDto {
     private String boardImgUrl2;
     private String boardImgUrl3;
     private String tag;
+    // private List<PostBoardProduct> productList;
 }
+

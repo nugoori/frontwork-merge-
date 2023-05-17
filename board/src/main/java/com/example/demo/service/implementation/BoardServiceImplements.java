@@ -14,6 +14,7 @@ import com.example.demo.common.constant.ResponseMessage;
 import com.example.demo.dto.request.board.LikeDto;
 import com.example.demo.dto.request.board.PatchBoardDto;
 import com.example.demo.dto.request.board.PostBoardDto;
+import com.example.demo.dto.request.board.PostBoardProduct;
 import com.example.demo.dto.request.board.PostCommentDto;
 import com.example.demo.dto.response.ResponseDto;
 import com.example.demo.dto.response.board.DeleteBoardResponseDto;
@@ -72,6 +73,8 @@ public class BoardServiceImplements implements BoardService {
     public ResponseDto<PostBoardResponseDto> postBoard(String email, PostBoardDto dto) {
         PostBoardResponseDto data = null;
 
+        // List<PostBoardProduct> productList = dto.getProductList();
+
         try {
             UserEntity userEntity = userRepository.findByEmail(email);
             if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
@@ -79,10 +82,20 @@ public class BoardServiceImplements implements BoardService {
             BoardEntity boardEntity = new BoardEntity(userEntity, dto);
             boardRepository.save(boardEntity);
 
+            // List<ProductEntity> productEntityList = new ArrayList<>();
+
+            // for (PostBoardProduct postBoardProduct: productList) {
+            //     ProductEntity productEntity = new ProductEntity(postBoardProduct);
+            //     productEntityList.add(productEntity);
+            // }
+
+            // productRepository.saveAll(productEntityList);
+
             int boardNumber = boardEntity.getBoardNumber();
 
             List<CommentEntity> commentEntity = commentRepository.findByBoardNumberOrderByWriterDateDesc(boardNumber);
             List<LikyEntity> likyEntity = likyRepository.findByBoardNumber(boardNumber);
+
 
             // List<ProductEntity> productEntityList = null;
             
