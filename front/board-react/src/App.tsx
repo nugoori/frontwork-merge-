@@ -1,19 +1,21 @@
 import { useEffect } from 'react';
-import './App.css';
-import { Box, Container, Grid, } from '@mui/material'
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { useUserStore } from './stores';
 import { useCookies } from 'react-cookie';
-import { GET_USER_URL, authorizationHeader } from './constants/api';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
+
+import { Box, Grid } from '@mui/material'
+
+import './App.css';
+import { useUserStore } from './stores';
+import { GET_USER_URL, authorizationHeader } from './constants/api';
 import ResponseDto from './apis/response';
-import NavigationBar from './views/NavigationBar';
-import Menus from './views/Menus';
 import { GetUserResponseDto } from './apis/response/user';
-import AuthenticationView from './views/AuthenticationView'
-import Main from './views/Main';
-
-
+import Main from './Views/Main';
+import Menus from './Views/Menus';
+import NavigationBar from './Views/NavigationBar';
+import AuthenticationView from './Views/AuthenticationView'
+import BoardWriteView from './Views/Board/BoardWriteView';
+import BoardUpdateView from './Views/Board/BoradUpdateView';
 
 function App() {
 
@@ -58,12 +60,12 @@ useEffect(() => {
             <Route path='/' element={(<Main />)} />
             <Route path='/auth' element={(<AuthenticationView />)} />
             {/* <Route path='/myPage' element={(<MyPageView />)} /> */}
-            {/* <Route path='/board'>
-            <Route path='write' element={(<BoardWriteView />)} />
-            <Route path='search/:content' element={(<SearchView />)} />
-            <Route path='detail/:boardNumber' element={(<BoardDetailView />)} />
-            <Route path='update/:boardNumber' element={(<BoardUpdateView />)} />
-          </Route> */}
+            <Route path='/board'>
+            <Route path='post-board' element={(<BoardWriteView />)} />
+            {/* <Route path='search/:content' element={(<SearchView />)} />
+            <Route path='detail/:boardNumber' element={(<BoardDetailView />)} /> */}
+            {/* <Route path='update/:boardNumber' element={(<BoardUpdateView />)} /> */}
+          </Route>
           </Routes>
           {/* { path.pathname !== '/auth' && (<Footer />) } */}
           </Grid>

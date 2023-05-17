@@ -11,12 +11,15 @@ import axios, { AxiosResponse } from "axios";
 import ResponseDto from "src/apis/response";
 import { SignInResponseDto } from "src/apis/response/auth";
 import { getExpireTime } from "src/utils";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     setSignInView: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SignInCardView({ setSignInView }: Props) {
+
+    const navigator = useNavigate();
 
     const [cookies, setCookie] = useCookies();
     const { setUser } = useUserStore();
@@ -26,6 +29,7 @@ export default function SignInCardView({ setSignInView }: Props) {
     const [ loginErrorFlag, setLoginErrorFlag ] = useState<boolean | null>(null);
     const [ nullErrorFlag, setNullErrorFlag ] = useState<boolean>(false);
 
+    // event handler //
     const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setEmail(event.target.value);
         setNullErrorFlag(true);
@@ -53,6 +57,7 @@ export default function SignInCardView({ setSignInView }: Props) {
         .catch((error) => signInErrorHandler(error));
     }
 
+    // response handler //
     const signInResponseHandler = (response: AxiosResponse<any, any>) => {
         const { result, message, data } = response.data as ResponseDto<SignInResponseDto>;
         
@@ -65,17 +70,17 @@ export default function SignInCardView({ setSignInView }: Props) {
         }
 
         const { token, expriedTime, ...user } = data;
-
         const expires = getExpireTime(expriedTime);
         setCookie('accessToken', token, {expires, path: '/'});
-
         setUser(user);
-
+        
         const userNickname = user.nickname;
         alert(userNickname + "님 환영합니다!!");
+        navigator('/');
         console.log(data);
     }
 
+    // error handler //
     const signInErrorHandler = (error: any) => {
         console.log(error.response.status);
     }

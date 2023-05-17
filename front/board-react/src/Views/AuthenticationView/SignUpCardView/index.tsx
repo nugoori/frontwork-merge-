@@ -95,6 +95,7 @@ export default function SignUpCardView({ setSignInView }: Props) {
         .then((response) => signUpResponseHandler(response))
         .catch((error) => signUpErrorHandler(error));
     }
+    
     //                                            Response handler                                            //
     const validateEmailResponseHandler = (response: AxiosResponse<any, any>) => {
         const { result, message, data } = response.data as ResponseDto<ValidateEmailResponseDto>;

@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useState, useRef } from 'react'
+import { ChangeEvent, KeyboardEvent, useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios, { AxiosResponse } from 'axios';
@@ -83,14 +83,55 @@ export default function BoardWriteView() {
             .catch((error) => boardImageUploadErrorHandler(error))
     }
 
-    const onProductImageUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onProductImageUploadChangeHandler1 = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return;
         const data = new FormData();
         data.append('file', event.target.files[0]);
         axios.post(FILE_UPLOAD_URL, data, mutipartHeader())
-            .then((response) => productImageUploadResponseHandler(response))
+            .then((response) => productImageUploadResponseHandler1(response))
             .catch((error) => productImageUploadErrorHandler(error))
     }
+    const onProductImageUploadChangeHandler2 = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) return;
+        const data = new FormData();
+        data.append('file', event.target.files[0]);
+        axios.post(FILE_UPLOAD_URL, data, mutipartHeader())
+            .then((response) => productImageUploadResponseHandler2(response))
+            .catch((error) => productImageUploadErrorHandler(error))
+    }
+    const onProductImageUploadChangeHandler3 = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) return;
+        const data = new FormData();
+        data.append('file', event.target.files[0]);
+        axios.post(FILE_UPLOAD_URL, data, mutipartHeader())
+            .then((response) => productImageUploadResponseHandler3(response))
+            .catch((error) => productImageUploadErrorHandler(error))
+    }
+    const onProductImageUploadChangeHandler4 = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) return;
+        const data = new FormData();
+        data.append('file', event.target.files[0]);
+        axios.post(FILE_UPLOAD_URL, data, mutipartHeader())
+            .then((response) => productImageUploadResponseHandler4(response))
+            .catch((error) => productImageUploadErrorHandler(error))
+    }
+    const onProductImageUploadChangeHandler5 = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) return;
+        const data = new FormData();
+        data.append('file', event.target.files[0]);
+        axios.post(FILE_UPLOAD_URL, data, mutipartHeader())
+            .then((response) => productImageUploadResponseHandler5(response))
+            .catch((error) => productImageUploadErrorHandler(error))
+    }
+    const onProductImageUploadChangeHandler6 = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) return;
+        const data = new FormData();
+        data.append('file', event.target.files[0]);
+        axios.post(FILE_UPLOAD_URL, data, mutipartHeader())
+            .then((response) => productImageUploadResponseHandler6(response))
+            .catch((error) => productImageUploadErrorHandler(error))
+    }
+
     const onBoardContentChangeHandler = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const value = event.target.value;
         setBoardContent(value);
@@ -117,6 +158,7 @@ export default function BoardWriteView() {
             alert('모든 내용을 작성해주세요!');
             return;
         }
+        // navigator('/post-product');
         postBoard();
     }
     const postBoard = () => {
@@ -144,6 +186,37 @@ export default function BoardWriteView() {
         setBoardImgUrl3(imageUrl3);
     }
 
+    const productImageUploadResponseHandler1 = (response: AxiosResponse<any, any>) => {
+        const productImgUrl = response.data as string;
+        if (!productImgUrl) return;
+        setProductImgUrl(productImgUrl);
+    }
+    const productImageUploadResponseHandler2 = (response: AxiosResponse<any, any>) => {
+        const productImgUrl = response.data as string;
+        if (!productImgUrl) return;
+        setProductImgUrl(productImgUrl);
+    }
+    const productImageUploadResponseHandler3 = (response: AxiosResponse<any, any>) => {
+        const productImgUrl = response.data as string;
+        if (!productImgUrl) return;
+        setProductImgUrl(productImgUrl);
+    }
+    const productImageUploadResponseHandler4 = (response: AxiosResponse<any, any>) => {
+        const productImgUrl = response.data as string;
+        if (!productImgUrl) return;
+        setProductImgUrl(productImgUrl);
+    }
+    const productImageUploadResponseHandler5 = (response: AxiosResponse<any, any>) => {
+        const productImgUrl = response.data as string;
+        if (!productImgUrl) return;
+        setProductImgUrl(productImgUrl);
+    }
+    const productImageUploadResponseHandler6 = (response: AxiosResponse<any, any>) => {
+        const productImgUrl = response.data as string;
+        if (!productImgUrl) return;
+        setProductImgUrl(productImgUrl);
+    }
+
     const postBoardResponseHandler = (response: AxiosResponse<any, any>) => {
         const { result, message, data } = response.data as ResponseDto<PostBoardResponseDto>
         if (!result || !data) {
@@ -151,11 +224,6 @@ export default function BoardWriteView() {
             return;
         }
         navigator('/');
-    }
-    const productImageUploadResponseHandler = (response: AxiosResponse<any, any>) => {
-        const productImgUrl = response.data as string;
-        if (!productImgUrl) return;
-        setProductImgUrl(productImgUrl);
     }
 
     // error handler //
@@ -168,6 +236,15 @@ export default function BoardWriteView() {
     const productImageUploadErrorHandler = (error: any) => {
         console.log(error.message);
     }
+
+    // use effect //
+    useEffect(() => {
+        if(!accessToken) {
+            navigator('/')
+            return;
+        }
+    },[])
+
 
     return (
         <Box sx={{ paddingTop: '100px' }}>
@@ -232,14 +309,13 @@ export default function BoardWriteView() {
                             <Box sx={{ display: 'flex' }}>
                                 <Box sx={{ p: '15px 0' }}>
                                     <Box sx={{ width: '100%' }} >
-                                        <Box sx={{ width: '100%', position: 'relative', zIndex: '1' }} component='img' src={productImgUrl} />
+                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl} />
                                     </Box>
                                 </Box>
-
-                                <Box sx={{ position: 'relative', zIndex: '1' }}>
+                                <Box sx={{  }}>
                                     <IconButton onClick={() => onProductImageUploadButtonHandler()} >
                                         <AddAPhotoIcon />
-                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler(event)} />
+                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler1(event)} />
                                     </IconButton>
                                 </Box>
                             </Box>
@@ -255,14 +331,17 @@ export default function BoardWriteView() {
                         </Box >
                         {/* //? 상품 등록박스2 */}
                         <Box sx={{ p: '15PX 15px', width: '235px', height: '285px', border: 0.3, borderRadius: 1 }}>
-                            <Box>
-                                <Box>
-                                    <Card sx={{ width: '235px', height: '150px', backgroundColor: 'yellow', display: 'flex', justifyContent: 'center', boxSizing: 'border-box' }}>
-                                        <IconButton onClick={() => onProductImageUploadButtonHandler()} >
-                                            <AddAPhotoIcon />
-                                            <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler(event)} />
-                                        </IconButton>
-                                    </Card>
+                            <Box sx={{ display: 'flex' }}>
+                                <Box sx={{ p: '15px 0' }}>
+                                    <Box sx={{ width: '100%' }} >
+                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl} />
+                                    </Box>
+                                </Box>
+                                <Box sx={{  }}>
+                                    <IconButton onClick={() => onProductImageUploadButtonHandler()} >
+                                        <AddAPhotoIcon />
+                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler2(event)} />
+                                    </IconButton>
                                 </Box>
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
@@ -276,13 +355,18 @@ export default function BoardWriteView() {
                         </Box>
                         {/* //? 상품 등록박스3 */}
                         <Box sx={{ p: '15PX 15px', width: '235px', height: '285px', border: 0.3, borderRadius: 1 }}>
-                            <Box>
-                                <Card sx={{ width: '235px', height: '150px', backgroundColor: 'yellow', display: 'flex', justifyContent: 'center', boxSizing: 'border-box' }}>
+                            <Box sx={{ display: 'flex' }}>
+                                <Box sx={{ p: '15px 0' }}>
+                                    <Box sx={{ width: '100%' }} >
+                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl} />
+                                    </Box>
+                                </Box>
+                                <Box sx={{  }}>
                                     <IconButton onClick={() => onProductImageUploadButtonHandler()} >
                                         <AddAPhotoIcon />
-                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler(event)} />
+                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler3(event)} />
                                     </IconButton>
-                                </Card>
+                                </Box>
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
@@ -298,13 +382,18 @@ export default function BoardWriteView() {
                     <Box sx={{ mt: '20px', mb: '100px', display: 'flex', justifyContent: 'space-between' }}>
                         {/* //? 상품 등록박스4 */}
                         <Box sx={{ p: '15PX 15px', width: '235px', height: '285px', border: 0.3, borderRadius: 1 }}>
-                            <Box>
-                                <Card sx={{ width: '235px', height: '150px', backgroundColor: 'yellow', display: 'flex', justifyContent: 'center', boxSizing: 'border-box' }}>
+                            <Box sx={{ display: 'flex' }}>
+                                <Box sx={{ p: '15px 0' }}>
+                                    <Box sx={{ width: '100%' }} >
+                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl} />
+                                    </Box>
+                                </Box>
+                                <Box sx={{  }}>
                                     <IconButton onClick={() => onProductImageUploadButtonHandler()} >
                                         <AddAPhotoIcon />
-                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler(event)} />
+                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler4(event)} />
                                     </IconButton>
-                                </Card>
+                                </Box>
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
@@ -317,13 +406,18 @@ export default function BoardWriteView() {
                         </Box>
                         {/* //? 상품 등록박스5 */}
                         <Box sx={{ p: '15PX 15px', width: '235px', height: '285px', border: 0.3, borderRadius: 1 }}>
-                            <Box>
-                                <Card sx={{ width: '235px', height: '150px', backgroundColor: 'yellow', display: 'flex', justifyContent: 'center', boxSizing: 'border-box' }}>
+                            <Box sx={{ display: 'flex' }}>
+                                <Box sx={{ p: '15px 0' }}>
+                                    <Box sx={{ width: '100%' }} >
+                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl} />
+                                    </Box>
+                                </Box>
+                                <Box sx={{  }}>
                                     <IconButton onClick={() => onProductImageUploadButtonHandler()} >
                                         <AddAPhotoIcon />
-                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler(event)} />
+                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler5(event)} />
                                     </IconButton>
-                                </Card>
+                                </Box>
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
@@ -336,13 +430,18 @@ export default function BoardWriteView() {
                         </Box>
                         {/* //? 상품 등록박스6 */}
                         <Box sx={{ p: '15PX 15px', width: '235px', height: '285px', border: 0.3, borderRadius: 1 }}>
-                            <Box>
-                                <Card sx={{ width: '235px', height: '150px', backgroundColor: 'yellow', display: 'flex', justifyContent: 'center', boxSizing: 'border-box' }}>
+                            <Box sx={{ display: 'flex' }}>
+                                <Box sx={{ p: '15px 0' }}>
+                                    <Box sx={{ width: '100%' }} >
+                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl} />
+                                    </Box>
+                                </Box>
+                                <Box sx={{  }}>
                                     <IconButton onClick={() => onProductImageUploadButtonHandler()} >
                                         <AddAPhotoIcon />
-                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler(event)} />
+                                        <input ref={productImgRef} hidden type='file' accept='image/*' onChange={(event) => onProductImageUploadChangeHandler6(event)} />
                                     </IconButton>
-                                </Card>
+                                </Box>
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
@@ -360,8 +459,11 @@ export default function BoardWriteView() {
             <Fab sx={{ position: 'fixed', bottom: '150px', right: '100px' }} onClick={() => onBoardWriteHandler()}>
                 <CreateIcon />
             </Fab>
+            <Fab sx={{ position: 'fixed', bottom: '50px', right: '100px' }} onClick={() => navigator('/post-product')}>
+                <CreateIcon />
+            </Fab>
         </Box>
     )
 
-    // todo : BoardWriteView - ProductWriteView로 나누고 router에서 각각 받아오는게 나은가? // 상품 이미지 등록 박스 겹치기 어떻게 하는지 모르겠음
+    // todo : BoardWriteView - ProductWriteView로 나누고 router에서 각각 받아오는게 나은가? // 상품 이미지박스 하나당 핸들러 각각 만들어야 함
 }
