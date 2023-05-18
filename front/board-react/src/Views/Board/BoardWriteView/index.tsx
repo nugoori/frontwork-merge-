@@ -6,14 +6,16 @@ import axios, { AxiosResponse } from 'axios';
 import { Box, Fab, Input, Divider, Typography, IconButton } from '@mui/material'
 import CreateIcon from '@mui/icons-material/Create';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-import { FILE_UPLOAD_URL, POST_BOARD_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
+
+import { FILE_UPLOAD_URL, POST_BOARD_HAS_PRODUCT, POST_BOARD_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
 import { PostBoardDto, PostProductDto } from 'src/apis/request/board';
 import { PostBoardResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
-import { Product } from 'src/interfaces';
+import { BoardHasProduct, Product } from 'src/interfaces';
 import { usePostProductStore } from 'src/stores';
+import { PostProductResponseDto } from 'src/apis/response/product';
+import PostBoardHasProductDto from 'src/apis/request/product/Post-Board-Has-Product.dto';
 
 export default function BoardWriteView() {
     // hook //
@@ -29,9 +31,8 @@ export default function BoardWriteView() {
     const { product1, product2, product3, product4, product5, product6 } = usePostProductStore();
     const { setBoardContent, setBoardImgUrl1, setBoardImgUrl2, setBoardImgUrl3, setTag } = usePostProductStore();
 
-    // const [boardContent, setBoardContent] = useState<string>('');
+    const [board, setBoard] = useState<PostBoardResponseDto | null>(null);
     // const [boardImgUrl1, setBoardImgUrl] = useState<string>('');
-    // //? handler여러개 만들어야 이미지 여러개 들어가는듯
     // const [boardImgUrl2, setBoardImgUrl2] = useState<string>('');
     // const [boardImgUrl3, setBoardImgUrl3] = useState<string>('');
     // const [tag, setTag] = useState<string>('');
@@ -96,7 +97,6 @@ export default function BoardWriteView() {
             alert('모든 내용을 작성해주세요!');
             return;
         }
-        // navigator('/post-product');
         if (!product1 || !product2 || !product3) {
             alert('모든 내용을 작성해주세요!');
             return;
@@ -108,7 +108,9 @@ export default function BoardWriteView() {
 
         postBoard();
         productList.forEach(product => postProduct(product));
+        
     }
+
     const postBoard = () => {
         const data: PostBoardDto = { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag };
 
@@ -116,13 +118,20 @@ export default function BoardWriteView() {
             .then((response) => postBoardResponseHandler(response))
             .catch((error) => postBoardErrorHandler(error))
     }
-
+    //^ 따로 따로 가져오는 방법?
     const postProduct = (product: Product) => {
         const data: PostProductDto = { ...product };
 
         axios.post(POST_PRODUCT_URL, data, authorizationHeader(accessToken))
             .then((response) => postProductResponseHandler(response))
             .catch((error) => postBoardErrorHandler(error))
+    }
+    
+    const postBoardHasProduct = (boardHasProduct: BoardHasProduct) => {
+        const data: PostBoardHasProductDto = { ...boardHasProduct }
+
+        axios.post(POST_BOARD_HAS_PRODUCT, data, authorizationHeader(accessToken))
+            .catch((error) => postBoardHasProductErrorHandler(error))
     }
 
     // response handler //
@@ -148,7 +157,20 @@ export default function BoardWriteView() {
             alert(message);
             return;
         }
-        navigator('/');
+        setBoard(data);
+    }
+
+    const postProductResponseHandler = (response: AxiosResponse<any, any>) => {
+        const { result, message, data } = response.data as ResponseDto<PostProductResponseDto>
+        if (!result || !data) {
+            alert(message);
+            return;
+        }
+
+        //! Cannot read properties of undefined (reading 'boardNumber') index.tsx:176  //
+        if (!board) return;
+        const dto: BoardHasProduct = { boardNumber: board.board.boardNumber, productNumber: data.product.productNumber }
+        postBoardHasProduct(dto);
     }
 
     // error handler //
@@ -156,6 +178,9 @@ export default function BoardWriteView() {
         console.log(error.message);
     }
     const boardImageUploadErrorHandler = (error: any) => {
+        console.log(error.message);
+    }
+    const postBoardHasProductErrorHandler = (error: any) => {
         console.log(error.message);
     }
 

@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 public class PostProductDto {
     @NotBlank
     private String productName;
+    @NotBlank
     private String productPrice;
+    @NotBlank
     private String productUrl;
+    @NotBlank
     private String productImgUrl;
 }

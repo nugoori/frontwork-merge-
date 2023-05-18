@@ -2,7 +2,7 @@ import { Product } from '../interfaces';
 import { create } from 'zustand';
 
 interface IPostProductStore {
-    // BoardWriteView 에서 사용되는 상태
+    //^ BoardWriteView 에서 사용되는 상태
     boardContent: string;
     boardImgUrl1: string;
     boardImgUrl2: string;
@@ -15,7 +15,7 @@ interface IPostProductStore {
     setBoardImgUrl3: (boardImgUrl3: string) => void;
     setTag: (tag: string) => void;
     
-    // ProductWriteView 에서 사용되는 상태
+    //^ ProductWriteView 에서 사용되는 상태
     product1: Product | null;
     product2: Product | null;
     product3: Product | null;
@@ -38,6 +38,7 @@ const useStore = create<IPostProductStore>((set) => ({
     boardImgUrl3: '',
     tag: '',
     
+    //^ useState
     setBoardContent: (boardContent: string) => set((state) => ({...state, boardContent})),
     setBoardImgUrl1: (boardImgUrl1: string) => set((state) => ({...state, boardImgUrl1})),
     setBoardImgUrl2: (boardImgUrl2: string) => set((state) => ({...state, boardImgUrl2})),
@@ -50,7 +51,6 @@ const useStore = create<IPostProductStore>((set) => ({
     product4: null,
     product5: null,
     product6: null,
-
 
     setProduct1: (product1: Product) => set((state) => ({...state, product1})),
     setProduct2: (product2: Product) => set((state) => ({...state, product2})),

@@ -3,6 +3,7 @@ import Comment from "./Comment.interface";
 import Liky from "./Liky.interface";
 import Product from "./Product.interface";
 import User from "./User.interface";
+import BoardHasProduct from "./BoardHasProduct";
 
 export interface IBoardItem {
     boardNumber : number;
@@ -50,4 +51,9 @@ export interface IUser {
     gender : string;
 }
 
-export type { Board, Comment, Liky, Product, User }
+export interface IBoardHasProduct {
+    boardNumber: number;
+    productNumber: number;
+}
+
+export type { Board, Comment, Liky, Product, User, BoardHasProduct }

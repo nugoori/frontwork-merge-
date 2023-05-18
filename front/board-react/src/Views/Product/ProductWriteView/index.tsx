@@ -34,15 +34,11 @@ export default function ProductWriteView() {
     // const [product4, setProduct4] = useState<Product | null>(null);
     // const [product5, setProduct5] = useState<Product | null>(null);
     // const [product6, setProduct6] = useState<Product | null>(null);
-    const [productImgUrl1, setProductImgUrl1] = useState<string>('');
-    const [productImgUrl2, setProductImgUrl2] = useState<string>('');
-    const [productImgUrl3, setProductImgUrl3] = useState<string>('');
-    const [productImgUrl4, setProductImgUrl4] = useState<string>('');
-    const [productImgUrl5, setProductImgUrl5] = useState<string>('');
-    const [productImgUrl6, setProductImgUrl6] = useState<string>('');
-    const [productName, setProductName] = useState<string>('');
-    const [productPrice, setProductPrice] = useState<string>('');
-    const [productUrl, setProductUrl] = useState<string>('');
+
+    const [ productName, setProductName ] = useState<string>('');
+    const [ productPrice, setProductPrice ] = useState<string>('');
+    const [ productUrl, setProductUrl ] = useState<string>('');
+    const [ productImgUrl, setProductImgUrl ] = useState<string>('');
 
     const accessToken = cookies.accessToken;
 
@@ -121,7 +117,7 @@ export default function ProductWriteView() {
             .catch((error) => productImageUploadErrorHandler(error))
     }
 
-    const onProductNameChangeHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const onProductNameChangeHandler1 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const productName = event.target.value;
         if (product1) setProduct1({ ...product1, productName });
         else {
@@ -134,7 +130,74 @@ export default function ProductWriteView() {
             setProduct1(product);
         }
     }
-    const onProductPriceChangeHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const onProductNameChangeHandler2 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product2) setProduct2({ ...product2, productName });
+        else {
+            const product: Product = {
+                productName,
+                productPrice: '',
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct2(product);
+        }
+    }
+    const onProductNameChangeHandler3 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product3) setProduct3({ ...product3, productName });
+        else {
+            const product: Product = {
+                productName,
+                productPrice: '',
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct3(product);
+        }
+    }
+    const onProductNameChangeHandler4 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product4) setProduct4({ ...product4, productName });
+        else {
+            const product: Product = {
+                productName,
+                productPrice: '',
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct4(product);
+        }
+    }
+    const onProductNameChangeHandler5 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product5) setProduct5({ ...product5, productName });
+        else {
+            const product: Product = {
+                productName,
+                productPrice: '',
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct5(product);
+        }
+    }
+    const onProductNameChangeHandler6 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product6) setProduct6({ ...product6, productName });
+        else {
+            const product: Product = {
+                productName,
+                productPrice: '',
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct6(product);
+        }
+    }
+
+
+    const onProductPriceChangeHandler1 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const productPrice = event.target.value;
         if (product1) setProduct1({ ...product1, productPrice });
         else {
@@ -147,7 +210,74 @@ export default function ProductWriteView() {
             setProduct1(product);
         }
     }
-    const onProductUrlChangeHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const onProductPriceChangeHandler2 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productPrice = event.target.value;
+        if (product2) setProduct2({ ...product2, productPrice });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice,
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct2(product);
+        }
+    }
+    const onProductPriceChangeHandler3 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productPrice = event.target.value;
+        if (product3) setProduct3({ ...product3, productPrice });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice,
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct3(product);
+        }
+    }
+    const onProductPriceChangeHandler4 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productPrice = event.target.value;
+        if (product4) setProduct4({ ...product4, productPrice });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice,
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct4(product);
+        }
+    }
+    const onProductPriceChangeHandler5 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productPrice = event.target.value;
+        if (product5) setProduct5({ ...product5, productPrice });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice,
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct5(product);
+        }
+    }
+    const onProductPriceChangeHandler6 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productPrice = event.target.value;
+        if (product6) setProduct6({ ...product6, productPrice });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice,
+                productUrl: '',
+                productImgUrl: ''
+            }
+            setProduct6(product);
+        }
+    }
+    
+
+    const onProductUrlChangeHandler1 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const productUrl = event.target.value;
         if (product1) setProduct1({ ...product1, productUrl });
         else {
@@ -160,20 +290,87 @@ export default function ProductWriteView() {
             setProduct1(product);
         }
     }
+    const onProductUrlChangeHandler2 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product2) setProduct2({ ...product2, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct2(product);
+        }
+    }
+    const onProductUrlChangeHandler3 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product3) setProduct3({ ...product3, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct3(product);
+        }
+    }
+    const onProductUrlChangeHandler4 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product4) setProduct4({ ...product4, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct4(product);
+        }
+    }
+    const onProductUrlChangeHandler5 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product5) setProduct5({ ...product5, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct5(product);
+        }
+    }
+    const onProductUrlChangeHandler6 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product6) setProduct6({ ...product6, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct6(product);
+        }
+    }
 
     const postProduct = () => {
-        const data : PostProductDto = { productName, productPrice, productUrl, productImgUrl1, productImgUrl2, productImgUrl3, productImgUrl4, productImgUrl5, productImgUrl6 }
+        const data : PostProductDto = { productName, productPrice, productUrl, productImgUrl }
+
+        axios.post(POST_PRODUCT_URL, data, authorizationHeader(accessToken))
+            .then((response) => postProductResponseHandler(response))
+            .catch((error) => postProductErrorHandler(error))
     }
 
     const onProductWriteHandler = () => {
         if (!product1 || !product2 || !product3) {
-            alert('3가지는 입력하세요.');
+            alert('최소 상,하의, 신발 정보는 입력해주세요.');
             return;
         }
-        // navigator('/post-product');
         postProduct();
     }
-
 
     // response handler //
     const productImageUploadResponseHandler1 = (response: AxiosResponse<any, any>) => {
@@ -189,32 +386,76 @@ export default function ProductWriteView() {
             }
             setProduct1(product);
         }
-        // setProductImgUrl1(productImgUrl);
     }
     const productImageUploadResponseHandler2 = (response: AxiosResponse<any, any>) => {
         const productImgUrl = response.data as string;
         if (!productImgUrl) return;
-        setProductImgUrl2(productImgUrl);
+        if (product2) setProduct2({ ...product2, productImgUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl: '',
+                productImgUrl
+            }
+            setProduct2(product);
+        }
     }
     const productImageUploadResponseHandler3 = (response: AxiosResponse<any, any>) => {
         const productImgUrl = response.data as string;
         if (!productImgUrl) return;
-        setProductImgUrl3(productImgUrl);
+        if (product3) setProduct3({ ...product3, productImgUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl: '',
+                productImgUrl
+            }
+            setProduct3(product);
+        }
     }
     const productImageUploadResponseHandler4 = (response: AxiosResponse<any, any>) => {
         const productImgUrl = response.data as string;
         if (!productImgUrl) return;
-        setProductImgUrl4(productImgUrl);
+        if (product4) setProduct4({ ...product4, productImgUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl: '',
+                productImgUrl
+            }
+            setProduct4(product);
+        }
     }
     const productImageUploadResponseHandler5 = (response: AxiosResponse<any, any>) => {
         const productImgUrl = response.data as string;
         if (!productImgUrl) return;
-        setProductImgUrl5(productImgUrl);
+        if (product5) setProduct5({ ...product5, productImgUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl: '',
+                productImgUrl
+            }
+            setProduct5(product);
+        }
     }
     const productImageUploadResponseHandler6 = (response: AxiosResponse<any, any>) => {
         const productImgUrl = response.data as string;
         if (!productImgUrl) return;
-        setProductImgUrl6(productImgUrl);
+        if (product6) setProduct6({ ...product6, productImgUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl: '',
+                productImgUrl
+            }
+            setProduct6(product);
+        }
     }
 
     const postProductResponseHandler = (response: AxiosResponse<any, any>) => {
@@ -228,6 +469,10 @@ export default function ProductWriteView() {
 
     // error handler //
     const productImageUploadErrorHandler = (error: any) => {
+        console.log(error.message);
+    }
+
+    const postProductErrorHandler = (error: any) => {
         console.log(error.message);
     }
 
@@ -262,12 +507,12 @@ export default function ProductWriteView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => onProductNameChangeHandler(event)} value={product1?.productName} />
+                                    onChange={(event) => onProductNameChangeHandler1(event)} value={product1?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => onProductPriceChangeHandler(event)} value={product1?.productPrice} />
+                                    onChange={(event) => onProductPriceChangeHandler1(event)} value={product1?.productPrice} />
                                 {/* //? url 이동 되는건가? */}
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => onProductUrlChangeHandler(event)} value={product1?.productUrl} />
+                                    onChange={(event) => onProductUrlChangeHandler1(event)} value={product1?.productUrl} />
                             </Box>
                         </Box >
                         {/* //? 상품 등록박스2 */}
@@ -275,7 +520,7 @@ export default function ProductWriteView() {
                             <Box sx={{ display: 'flex' }}>
                                 <Box sx={{ p: '15px 0' }}>
                                     <Box sx={{ width: '100%' }} >
-                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl2} />
+                                    <Box sx={{ width: '100%' }} component='img' src={product2?.productImgUrl} />
                                     </Box>
                                 </Box>
                                 <Box sx={{}}>
@@ -287,11 +532,11 @@ export default function ProductWriteView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => onProductNameChangeHandler(event)} />
+                                    onChange={(event) => onProductNameChangeHandler2(event)} value={product2?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => onProductPriceChangeHandler(event)} />
+                                    onChange={(event) => onProductPriceChangeHandler2(event)} value={product2?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => onProductUrlChangeHandler(event)} />
+                                    onChange={(event) => onProductUrlChangeHandler2(event)} value={product2?.productUrl} />
                             </Box>
                         </Box>
                         {/* //? 상품 등록박스3 */}
@@ -299,7 +544,7 @@ export default function ProductWriteView() {
                             <Box sx={{ display: 'flex' }}>
                                 <Box sx={{ p: '15px 0' }}>
                                     <Box sx={{ width: '100%' }} >
-                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl3} />
+                                        <Box sx={{ width: '100%' }} component='img' src={product3?.productImgUrl} />
                                     </Box>
                                 </Box>
                                 <Box sx={{}}>
@@ -311,11 +556,11 @@ export default function ProductWriteView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => onProductNameChangeHandler(event)} />
+                                    onChange={(event) => onProductNameChangeHandler3(event)} value={product3?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => onProductPriceChangeHandler(event)} />
+                                    onChange={(event) => onProductPriceChangeHandler3(event)} value={product3?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => onProductUrlChangeHandler(event)} />
+                                    onChange={(event) => onProductUrlChangeHandler3(event)} value={product3?.productUrl} />
                             </Box>
                         </Box>
                     </Box>
@@ -326,7 +571,7 @@ export default function ProductWriteView() {
                             <Box sx={{ display: 'flex' }}>
                                 <Box sx={{ p: '15px 0' }}>
                                     <Box sx={{ width: '100%' }} >
-                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl4} />
+                                    <Box sx={{ width: '100%' }} component='img' src={product4?.productImgUrl} />
                                     </Box>
                                 </Box>
                                 <Box sx={{}}>
@@ -338,11 +583,11 @@ export default function ProductWriteView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => onProductNameChangeHandler(event)} />
+                                    onChange={(event) => onProductNameChangeHandler4(event)} value={product4?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => onProductPriceChangeHandler(event)} />
+                                    onChange={(event) => onProductPriceChangeHandler4(event)} value={product4?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => onProductUrlChangeHandler(event)} />
+                                    onChange={(event) => onProductUrlChangeHandler4(event)} value={product4?.productUrl} />
                             </Box>
                         </Box>
                         {/* //? 상품 등록박스5 */}
@@ -350,7 +595,7 @@ export default function ProductWriteView() {
                             <Box sx={{ display: 'flex' }}>
                                 <Box sx={{ p: '15px 0' }}>
                                     <Box sx={{ width: '100%' }} >
-                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl5} />
+                                    <Box sx={{ width: '100%' }} component='img' src={product5?.productImgUrl} />
                                     </Box>
                                 </Box>
                                 <Box sx={{}}>
@@ -362,11 +607,11 @@ export default function ProductWriteView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => onProductNameChangeHandler(event)} />
+                                    onChange={(event) => onProductNameChangeHandler5(event)} value={product5?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => onProductPriceChangeHandler(event)} />
+                                    onChange={(event) => onProductPriceChangeHandler5(event)} value={product5?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => onProductUrlChangeHandler(event)} />
+                                    onChange={(event) => onProductUrlChangeHandler5(event)} value={product5?.productUrl} />
                             </Box>
                         </Box>
                         {/* //? 상품 등록박스6 */}
@@ -374,7 +619,7 @@ export default function ProductWriteView() {
                             <Box sx={{ display: 'flex' }}>
                                 <Box sx={{ p: '15px 0' }}>
                                     <Box sx={{ width: '100%' }} >
-                                        <Box sx={{ width: '100%' }} component='img' src={productImgUrl6} />
+                                    <Box sx={{ width: '100%' }} component='img' src={product6?.productImgUrl} />
                                     </Box>
                                 </Box>
                                 <Box sx={{}}>
@@ -386,20 +631,20 @@ export default function ProductWriteView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => onProductNameChangeHandler(event)} />
+                                    onChange={(event) => onProductNameChangeHandler6(event)} value={product6?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => onProductPriceChangeHandler(event)} />
+                                    onChange={(event) => onProductPriceChangeHandler6(event)} value={product6?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => onProductUrlChangeHandler(event)} />
+                                    onChange={(event) => onProductUrlChangeHandler6(event)} value={product6?.productUrl} />
                             </Box>
                         </Box>
                     </Box>
                 </Box>
             </Box>
 
-            <Fab sx={{ position: 'fixed', bottom: '50px', right: '100px' }} onClick={() => navigator('/post-product')}>
+            {/* <Fab sx={{ position: 'fixed', bottom: '50px', right: '100px' }} onClick={() => onProductWriteHandler()}>
                 <CreateIcon />
-            </Fab>
+            </Fab> */}
         </>
     )
  

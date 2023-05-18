@@ -109,7 +109,7 @@ public class BoardController {
     }
     
     @GetMapping(GET_SEARCH_TAG)
-    public ResponseDto<List<GetSearchTagResponseDto>> searchTag(@PathVariable("tag")String tag) {
+    public ResponseDto<List<GetSearchTagResponseDto>> searchTag(@PathVariable("tag") String tag) {
         ResponseDto<List<GetSearchTagResponseDto>> response = boardService.searchTag(tag);
         return response;
     }
