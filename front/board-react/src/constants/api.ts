@@ -32,11 +32,11 @@ export const LIKE_URL = `${HOST}api/board/like`;
 export const POST_PRODUCT_URL = `${HOST}product/post-product`;
 
 export const POST_BOARD_HAS_PRODUCT = `${HOST}product/has-product`
-export const PATCH_BOARD_URL = `${HOST}api/board/`;
+export const PATCH_BOARD_URL = `${HOST}api/board/patch-board`;
 export const PATCH_PRODUCT_URL = `${HOST}product/patch-product`;
 
-export const GET_BOARD_URL = (boardNumber: string) => `${HOST}api/board/${boardNumber}`;
-export const GET_PRODUCT_URL = (productNubmer: string) => `${HOST}product/${productNubmer}`;
+export const GET_BOARD_URL = (boardNumber: number) => `${HOST}api/board/${boardNumber}`;
+export const GET_PRODUCT_URL = (productNubmer: number) => `${HOST}product/${productNubmer}`;
 export const GET_SEARCH_LIST_URL = (content: string, previous: string) => previous ? `${HOST}api/board/search-list/${content}/${previous}` : `${HOST}api/board/search-list/${content}`;
 export const GET_TOP15_RELATED_SEARCH_WORD_URL = (content: string) => `${HOST}api/board/top15-related-search-word/${content}`
 

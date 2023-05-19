@@ -1,5 +1,5 @@
 interface PatchBoardDto {
-    boardNumer: number,
+    boardNumber: number,
     boardContent: string,
     boardImgUrl1: string,
     boardImgUrl2: string | null,

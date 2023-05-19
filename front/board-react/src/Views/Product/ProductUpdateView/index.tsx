@@ -1,19 +1,19 @@
 import { ChangeEvent, KeyboardEvent, useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios, { AxiosResponse } from 'axios';
 
 import { Box, Input, IconButton } from '@mui/material'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-import { FILE_UPLOAD_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
-import { PostProductDto } from 'src/apis/request/board';
-import { PostBoardResponseDto } from 'src/apis/response/board';
+import { FILE_UPLOAD_URL, PATCH_PRODUCT_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
+import { PatchProductDto, PostProductDto } from 'src/apis/request/board';
+import { PatchBoardResponseDto, PostBoardResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
 import { Product } from 'src/interfaces';
 import { usePostProductStore } from 'src/stores';
 
-export default function ProductWriteView() {
+export default function ProductUpdateView() {
     // hook //
     const navigator = useNavigate();
 
@@ -27,7 +27,7 @@ export default function ProductWriteView() {
     const [cookies] = useCookies();
     const { product1, product2, product3, product4, product5, product6 } = usePostProductStore();
     const { setProduct1, setProduct2, setProduct3, setProduct4, setProduct5, setProduct6 } = usePostProductStore();
-
+    
     const [ productName, setProductName ] = useState<string>('');
     const [ productPrice, setProductPrice ] = useState<string>('');
     const [ productUrl, setProductUrl ] = useState<string>('');
@@ -349,21 +349,13 @@ export default function ProductWriteView() {
         }
     }
 
-    const postProduct = () => {
-        const data : PostProductDto = { productName, productPrice, productUrl, productImgUrl }
+    // const patchProduct = () => {
+    //     const data : PatchProductDto = { productNumber, productName, productPrice, productUrl, productImgUrl }
 
-        axios.post(POST_PRODUCT_URL, data, authorizationHeader(accessToken))
-            .then((response) => postProductResponseHandler(response))
-            .catch((error) => postProductErrorHandler(error))
-    }
-
-    const onProductWriteHandler = () => {
-        if (!product1 || !product2 || !product3) {
-            alert('최소 상,하의, 신발 정보는 입력해주세요.');
-            return;
-        }
-
-    }
+    //     axios.post(PATCH_PRODUCT_URL, data, authorizationHeader(accessToken))
+    //         .then((response) => patchProductResponseHandler(response))
+    //         .catch((error) => patchProductErrorHandler(error))
+    // }
 
     // response handler //
     const productImageUploadResponseHandler1 = (response: AxiosResponse<any, any>) => {
@@ -451,8 +443,8 @@ export default function ProductWriteView() {
         }
     }
 
-    const postProductResponseHandler = (response: AxiosResponse<any, any>) => {
-        const { result, message, data } = response.data as ResponseDto<PostBoardResponseDto>
+    const patchProductResponseHandler = (response: AxiosResponse<any, any>) => {
+        const { result, message, data } = response.data as ResponseDto<PatchBoardResponseDto>
         if (!result || !data) {
             alert(message);
             return;
@@ -464,8 +456,7 @@ export default function ProductWriteView() {
     const productImageUploadErrorHandler = (error: any) => {
         console.log(error.message);
     }
-
-    const postProductErrorHandler = (error: any) => {
+    const patchProductErrorHandler = (error: any) => {
         console.log(error.message);
     }
 
