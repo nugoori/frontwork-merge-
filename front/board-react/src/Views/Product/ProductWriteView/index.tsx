@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios, { AxiosResponse } from 'axios';
 
-import { Box, Fab, Input, Divider, Typography, IconButton, Card } from '@mui/material'
-import CreateIcon from '@mui/icons-material/Create';
+import { Box, Input, IconButton } from '@mui/material'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 import { FILE_UPLOAD_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
@@ -28,12 +27,6 @@ export default function ProductWriteView() {
     const [cookies] = useCookies();
     const { product1, product2, product3, product4, product5, product6 } = usePostProductStore();
     const { setProduct1, setProduct2, setProduct3, setProduct4, setProduct5, setProduct6 } = usePostProductStore();
-    // const [product1, setProduct1] = useState<Product | null>(null);
-    // const [product2, setProduct2] = useState<Product | null>(null);
-    // const [product3, setProduct3] = useState<Product | null>(null);
-    // const [product4, setProduct4] = useState<Product | null>(null);
-    // const [product5, setProduct5] = useState<Product | null>(null);
-    // const [product6, setProduct6] = useState<Product | null>(null);
 
     const [ productName, setProductName ] = useState<string>('');
     const [ productPrice, setProductPrice ] = useState<string>('');

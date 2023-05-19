@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 @IdClass(BoardHasProductPK.class)
 public class BoardHasProductEntity {
     @Id
-    private int productNumber;
-    @Id
     private int boardNumber;
+    @Id
+    private int productNumber;
     
 }

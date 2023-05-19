@@ -1,5 +1,5 @@
 interface Dto {
-    board: {
+    boardEntity: {
         boardNumber : number;
         boardContent : string;
         boardImgUrl1 : string;
@@ -14,7 +14,7 @@ interface Dto {
         likeCount : number;
         viewCount : number;
     };
-    commentList : [
+    commentEntity : [
       {
         boardNumber : number;
         commentNumber : number;
@@ -25,7 +25,7 @@ interface Dto {
         commentContent : number;
       }
     ];
-    likeList : [
+    likeEntity : [
       {
         boardNumber : number;
         // userEmail : string;

@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int productNumber;
     private String productName;
     private String productPrice;
@@ -34,7 +35,6 @@ public class ProductEntity {
         this.productPrice = dto.getProductPrice();
         this.productUrl = dto.getProductUrl();
         this.productImgUrl = dto.getProductImgUrl();
-
     }
 
     public ProductEntity(PostBoardProduct postBoardProduct) {
@@ -42,7 +42,6 @@ public class ProductEntity {
         this.productPrice = postBoardProduct.getProductPrice();
         this.productUrl = postBoardProduct.getProductUrl();
         this.productImgUrl = postBoardProduct.getProductImgUrl();
-
     }
 
     public void patch(PatchProductDto dto) {
@@ -50,6 +49,5 @@ public class ProductEntity {
         this.productPrice = dto.getProductPrice();
         this.productUrl = dto.getProductUrl();
         this.productImgUrl = dto.getProductImgUrl();
-
     }
 }

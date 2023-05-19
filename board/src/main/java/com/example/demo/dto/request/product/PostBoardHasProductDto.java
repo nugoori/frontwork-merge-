@@ -18,7 +18,6 @@ public class PostBoardHasProductDto {
     @Min(1)
     private int boardNumber;
 
-    @Max(6)
     private int productNumber;
 
 }

@@ -7,15 +7,14 @@ import { Box, Fab, Input, Divider, Typography, IconButton } from '@mui/material'
 import CreateIcon from '@mui/icons-material/Create';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-
 import { FILE_UPLOAD_URL, POST_BOARD_HAS_PRODUCT, POST_BOARD_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
 import { PostBoardDto, PostProductDto } from 'src/apis/request/board';
 import { PostBoardResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
-import { BoardHasProduct, Product } from 'src/interfaces';
-import { usePostProductStore } from 'src/stores';
 import { PostProductResponseDto } from 'src/apis/response/product';
 import PostBoardHasProductDto from 'src/apis/request/product/Post-Board-Has-Product.dto';
+import { BoardHasProduct, Product } from 'src/interfaces';
+import { usePostProductStore } from 'src/stores';
 
 export default function BoardWriteView() {
     // hook //
@@ -31,11 +30,9 @@ export default function BoardWriteView() {
     const { product1, product2, product3, product4, product5, product6 } = usePostProductStore();
     const { setBoardContent, setBoardImgUrl1, setBoardImgUrl2, setBoardImgUrl3, setTag } = usePostProductStore();
 
-    const [board, setBoard] = useState<PostBoardResponseDto | null>(null);
-    // const [boardImgUrl1, setBoardImgUrl] = useState<string>('');
-    // const [boardImgUrl2, setBoardImgUrl2] = useState<string>('');
-    // const [boardImgUrl3, setBoardImgUrl3] = useState<string>('');
-    // const [tag, setTag] = useState<string>('');
+    const [ board, setboard ] = useState<PostBoardResponseDto | null>(null);
+    
+    let boardNumber = 0;
 
     const accessToken = cookies.accessToken;
 
@@ -93,25 +90,10 @@ export default function BoardWriteView() {
     }
 
     const onBoardWriteHandler = () => {
-        if (!boardImgUrl1.trim() || !boardContent.trim()) {
-            alert('모든 내용을 작성해주세요!');
-            return;
-        }
-        if (!product1 || !product2 || !product3) {
-            alert('모든 내용을 작성해주세요!');
-            return;
-        }
-        const productList: Product[] = [product1, product2, product3];
-        if (product4) productList.push(product4);
-        if (product5) productList.push(product5);
-        if (product6) productList.push(product6);
-
         postBoard();
-        productList.forEach(product => postProduct(product));
-        
     }
 
-    const postBoard = () => {
+    const postBoard = async () => {
         const data: PostBoardDto = { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag };
 
         axios.post(POST_BOARD_URL, data, authorizationHeader(accessToken))
@@ -124,10 +106,11 @@ export default function BoardWriteView() {
 
         axios.post(POST_PRODUCT_URL, data, authorizationHeader(accessToken))
             .then((response) => postProductResponseHandler(response))
-            .catch((error) => postBoardErrorHandler(error))
+            .catch((error) => postProductErrorHandler(error))
     }
     
     const postBoardHasProduct = (boardHasProduct: BoardHasProduct) => {
+
         const data: PostBoardHasProductDto = { ...boardHasProduct }
 
         axios.post(POST_BOARD_HAS_PRODUCT, data, authorizationHeader(accessToken))
@@ -157,7 +140,24 @@ export default function BoardWriteView() {
             alert(message);
             return;
         }
-        setBoard(data);
+        // setBoard(data);
+        boardNumber = data.boardEntity.boardNumber;
+
+        if (!boardImgUrl1.trim() || !boardContent.trim()) {
+            alert('모든 내용을 작성해주세요!');
+            return;
+        }
+        if (!product1 || !product2 || !product3) {
+            alert('상,하의 신발 정도는 올려주세요!');
+            return;
+        }
+
+        const productList: Product[] = [product1, product2, product3];
+        if (product4) productList.push(product4);
+        if (product5) productList.push(product5);
+        if (product6) productList.push(product6);
+
+        productList.forEach(product => postProduct(product));
     }
 
     const postProductResponseHandler = (response: AxiosResponse<any, any>) => {
@@ -166,10 +166,10 @@ export default function BoardWriteView() {
             alert(message);
             return;
         }
+        // console.log(boardNumber)
+        if (!boardNumber) return;
 
-        //! Cannot read properties of undefined (reading 'boardNumber') index.tsx:176  //
-        if (!board) return;
-        const dto: BoardHasProduct = { boardNumber: board.board.boardNumber, productNumber: data.product.productNumber }
+        const dto: BoardHasProduct = { boardNumber, productNumber: data.productNumber }
         postBoardHasProduct(dto);
     }
 
@@ -178,6 +178,9 @@ export default function BoardWriteView() {
         console.log(error.message);
     }
     const boardImageUploadErrorHandler = (error: any) => {
+        console.log(error.message);
+    }
+    const postProductErrorHandler = (error: any) => {
         console.log(error.message);
     }
     const postBoardHasProductErrorHandler = (error: any) => {
@@ -196,7 +199,6 @@ export default function BoardWriteView() {
         <Box sx={{ paddingTop: '100px' }}>
             {/* //? 게시물 본문 */}
             <Box sx={{ width: '100%', display: 'block', textAlign: 'center' }}>
-                {/* //? 본문 사진 업로드 : 여러 박스에 올리려면 어떻게 해야하는가 */}
                 <Box sx={{ p: '15px 0' }}>
                     <Box sx={{ width: '100%' }} >
                         <Box sx={{ width: '50%' }} component='img' src={boardImgUrl1} />
@@ -232,7 +234,7 @@ export default function BoardWriteView() {
                         </IconButton>
                     </Box>
                 </Box>
-
+                <Divider sx={{ m: '40px 0' }} />
                 <Box sx={{ display: 'block-flex', justifyContent: 'center', mt: '45px', ml: '225px', p: '15px 0px', width: '70%', border: 0.3, borderRadius: 0.5, backgroundColor: 'rgba(0, 0, 0, 0.02)' }}>
                     {/* //? 스타일 태그 */}
                     <Typography sx={{ m: '4px 10px 0 20px' }} >스타일 :</Typography>
@@ -244,11 +246,7 @@ export default function BoardWriteView() {
                 </Box>
             </Box>
 
-            <Divider />
-
-            {/* <IconButton onClick={() => navigator(`http:/localhost:4040/product/post-product`)} >
-                <ArrowForwardIcon />
-            </IconButton> */}
+            <Divider sx={{ m: '40px 0' }} />
 
             <Fab sx={{ position: 'fixed', bottom: '150px', right: '100px' }} onClick={() => onBoardWriteHandler()}>
                 <CreateIcon />
@@ -256,5 +254,5 @@ export default function BoardWriteView() {
         </Box>     
  )
 
-    // todo : BoardWriteView - ProductWriteView로 나누고 router에서 각각 받아오는게 나은가? // 상품 이미지박스 하나당 핸들러 각각 만들어야 함
+    // todo : //
 }
