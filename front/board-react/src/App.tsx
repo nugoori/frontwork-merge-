@@ -18,6 +18,8 @@ import BoardWriteView from './Views/Board/BoardWriteView';
 import BoardUpdateView from './Views/Board/BoradUpdateView';
 import ProductWriteView from './Views/Product/ProductWriteView';
 import WriteView from './Views/WriteView';
+import UpdateView from './Views/UpdateView';
+import BoardDetailView from './Views/Board/BoardDtailView';
 
 function App() {
 
@@ -33,6 +35,7 @@ const getUser = (accessToken: string) => {
 
 const getUserResponseHandler = (response: AxiosResponse<any, any>) => {
   const { result, message, data } = response.data as ResponseDto<any>;
+  console.log(data)
   if (!result || !data) {
     return;
   }
@@ -64,9 +67,9 @@ useEffect(() => {
             {/* <Route path='/myPage' element={(<MyPageView />)} /> */}
             <Route path='/board'>
               <Route path='post-board' element={(<WriteView />)} />
-              {/* <Route path='search/:content' element={(<SearchView />)} />
-              <Route path='detail/:boardNumber' element={(<BoardDetailView />)} /> */}
-              {/* <Route path='update/:boardNumber' element={(<BoardUpdateView />)} /> */}
+              {/* <Route path='search/:content' element={(<SearchView />)} /> */}
+              <Route path='detail/:boardNumber' element={(<BoardDetailView />)} />
+              <Route path='update/:boardNumber' element={(<UpdateView />)} />
             </Route>
             
           </Routes>

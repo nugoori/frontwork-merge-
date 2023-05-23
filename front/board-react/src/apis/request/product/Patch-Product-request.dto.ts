@@ -1,5 +1,5 @@
 interface PatchProductDto {
-    productNumber: number,
+    productNumber?: number,
     productName: string;
     productPrice: string;
     productUrl: string;

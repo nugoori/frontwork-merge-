@@ -8,13 +8,13 @@ import CreateIcon from '@mui/icons-material/Create';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 import { FILE_UPLOAD_URL, GET_BOARD_URL, GET_PRODUCT_URL, PATCH_BOARD_URL, PATCH_PRODUCT_URL, POST_BOARD_HAS_PRODUCT, POST_BOARD_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
-import { PatchBoardDto, PostBoardDto, PostProductDto } from 'src/apis/request/board';
+import { PatchBoardDto, PatchProductDto, PostBoardDto, PostProductDto } from 'src/apis/request/board';
 import { GetBoardResponseDto, PatchBoardResponseDto, PostBoardResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
 import { GetProductResponseDto, PatchProductResponseDto, PostProductResponseDto } from 'src/apis/response/product';
 import PostBoardHasProductDto from 'src/apis/request/product/Post-Board-Has-Product.dto';
 import { BoardHasProduct, Product } from 'src/interfaces';
-import { usePostProductStore } from 'src/stores';
+import { usePatchProductStore, usePostProductStore, useUserStore } from 'src/stores';
 
 export default function BoardUpdateView() {
     // hook //
@@ -25,23 +25,20 @@ export default function BoardUpdateView() {
     const imageRef3 = useRef<HTMLInputElement | null>(null);
 
     const [cookies] = useCookies();
+    const { user } = useUserStore();
+    const { boardNumber } = useParams();
+    const { productNumberAPI } = useParams();
 
-    const { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag } = usePostProductStore();
-    const { product1, product2, product3, product4, product5, product6 } = usePostProductStore();
-    const { setBoardContent, setBoardImgUrl1, setBoardImgUrl2, setBoardImgUrl3, setTag } = usePostProductStore();
+    const { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag } = usePatchProductStore();
+    const { product1, product2, product3, product4, product5, product6 } = usePatchProductStore();
+    const { setBoardContent, setBoardImgUrl1, setBoardImgUrl2, setBoardImgUrl3, setTag } = usePatchProductStore();
+    const { setProduct1, setProduct2, setProduct3, setProduct4, setProduct5, setProduct6 } = usePatchProductStore();
 
-    const [ board, setboard ] = useState<PostBoardResponseDto | null>(null);
-    
-    let boardNumber = 0;
+    const [ board, setboard ] = useState<PatchBoardResponseDto | null>(null);
 
     const accessToken = cookies.accessToken;
 
     // event handler //
-    const onBoardContentKeyPressHandler = (event: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        if (event.key !== 'Enter') return;
-        setBoardContent(boardContent + '/n');
-    }
-
     const onBoardImageUploadButtonHandler = () => {
         if (!imageRef.current) return;
         imageRef.current.click();
@@ -80,61 +77,35 @@ export default function BoardUpdateView() {
             .catch((error) => boardImageUploadErrorHandler(error))
     }
 
-    const onBoardContentChangeHandler = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        const value = event.target.value;
-        setBoardContent(value);
-    }
-    const onTagChangeHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const value = event.target.value;
-        setTag(value);
-    }
-
-    
-    const onBoardUpdateHandler = () => {
+    const onUpdateHandler = () => {
         patchBoard();
     }
 
-    const patchBoard = async () => {
-        const data: PatchBoardDto = { boardNumber, boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag };
-
-        axios.post(PATCH_BOARD_URL, data, authorizationHeader(accessToken))
-            .then((response) => patchBoardResponseHandler(response))
-            .catch((error) => patchBoardErrorHandler(error))
-    }
-    const patchProduct = (product: Product) => {
-        const data: PostProductDto = { ...product };
-
-        axios.post(PATCH_PRODUCT_URL, data, authorizationHeader(accessToken))
-            .then((response) => patchProductResponseHandler(response))
-            .catch((error) => patchProductErrorHandler(error))
-    }
-    const patchBoardHasProduct = (boardHasProduct: BoardHasProduct) => {
-
-      const data: PostBoardHasProductDto = { ...boardHasProduct }
-
-      axios.post(POST_BOARD_HAS_PRODUCT, data, authorizationHeader(accessToken))
-          .then((response) => patchBoardResponseHandler(response))
-          .catch((error) => patchBoardErrorHandler(error))
-  }
-    
     const getBoard = () => {
-      axios.get(GET_BOARD_URL(boardNumber))
+      axios.get(GET_BOARD_URL(Number(boardNumber as string)))
         .then((response) => getBoardResponseHandler(response))
         .catch((error) => getBoardErrorHandler(error))
     }
     const getProduct = () => {
-      axios.get(GET_PRODUCT_URL(boardNumber))
+      axios.get(GET_PRODUCT_URL(Number(boardNumber as string)))
       .then((response) => getProductResponseHandler(response))
       .catch((error) => getProductErrorHandler(error))
     }
-  
-    // const postBoardHasProduct = (boardHasProduct: BoardHasProduct) => {
+    
+    const patchBoard = async () => {
+        const data: PatchBoardDto = { boardNumber: Number(boardNumber as string), boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag };
 
-    //     const data: PostBoardHasProductDto = { ...boardHasProduct }
+        axios.patch(PATCH_BOARD_URL, data, authorizationHeader(accessToken))
+            .then((response) => patchBoardResponseHandler(response))
+            .catch((error) => patchBoardErrorHandler(error))
+    }
+    const patchProduct = (product: Product) => {
+        const data: PatchProductDto = { ...product };
 
-    //     axios.post(POST_BOARD_HAS_PRODUCT, data, authorizationHeader(accessToken))
-    //         .catch((error) => postBoardHasProductErrorHandler(error))
-    // }
+        axios.patch(PATCH_PRODUCT_URL, data, authorizationHeader(accessToken))
+            .then((response) => patchProductResponseHandler(response))
+            .catch((error) => patchProductErrorHandler(error))
+    }
 
     // response handler //
     const boardImageUploadResponseHandler = (response: AxiosResponse<any, any>) => {
@@ -160,7 +131,33 @@ export default function BoardUpdateView() {
         navigator('/');
         return;
       }
+
+      const { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag, writerEmail,  } = data.board;
+
+      if (writerEmail !== user?.email) {
+        alert('권한이 없습니다');
+        navigator('/');
+        return;
+      }
+      setBoardContent(boardContent);
+      setBoardImgUrl1(boardImgUrl1);
+      if (boardImgUrl2) setBoardImgUrl2(boardImgUrl2);
+      if (boardImgUrl3) setBoardImgUrl3(boardImgUrl3);
+      setTag(tag);
+
+      console.log(data.productList);
+
+      data.productList.forEach((product, index) => {
+        if (index === 0) setProduct1(product);
+        if (index === 1) setProduct2(product);
+        if (index === 2) setProduct3(product);
+        if (index === 3) setProduct4(product);
+        if (index === 4) setProduct5(product);
+        if (index === 5) setProduct6(product);
+      })
+
     }
+
     const getProductResponseHandler = (response: AxiosResponse<any, any>) => {
       const { result, message, data } = response.data as ResponseDto<GetProductResponseDto>; 
       if (!result || !data) {
@@ -176,7 +173,7 @@ export default function BoardUpdateView() {
         alert(message);
         return;
       }
-      navigator(`/board/${boardNumber}`)
+      navigator(`/board/detail/${boardNumber}`)
     }
     const patchProductResponseHandler = (response: AxiosResponse<any, any>) => {
       const { result, message, data } = response.data as ResponseDto<PatchProductResponseDto>; 
@@ -184,8 +181,9 @@ export default function BoardUpdateView() {
         alert(message);
         return;
       } 
-      navigator(`/product/${productNumber}`)
+      navigator(`/product/${productNumberAPI}`)
     }
+
     // error handler //
     const boardImageUploadErrorHandler = (error: any) => {
         console.log(error.message);
@@ -205,11 +203,16 @@ export default function BoardUpdateView() {
 
     // use effect //
     useEffect(() => {
+        if(!boardNumber) {
+            navigator('/');
+            return;
+        }
         if(!accessToken) {
             navigator('/')
             return;
         }
-    },[])
+        if (user) getBoard();
+    },[user]);
 
     return (
         <Box sx={{ paddingTop: '100px' }}>
@@ -254,17 +257,16 @@ export default function BoardUpdateView() {
                 <Box sx={{ display: 'block-flex', justifyContent: 'center', mt: '45px', ml: '225px', p: '15px 0px', width: '70%', border: 0.3, borderRadius: 0.5, backgroundColor: 'rgba(0, 0, 0, 0.02)' }}>
                     {/* //? 스타일 태그 */}
                     <Typography sx={{ m: '4px 10px 0 20px' }} >스타일 :</Typography>
-                    <Input disableUnderline sx={{ mr: '10px', border: 0.05, width: '130px', height: '25px' }} onChange={(event) => onTagChangeHandler(event)} />
+                    <Input disableUnderline sx={{ mr: '10px', border: 0.05, width: '130px', height: '25px' }} value={tag} onChange={(event) => setTag(event.target.value)} />
                     {/* //? 본문 내용 입력 */}
-                    <Input sx={{ width: '800px' }} minRows={12} fullWidth multiline disableUnderline placeholder='내용을 입력하세요'
-                        onChange={(event) => onBoardContentChangeHandler(event)}
-                        onKeyDown={(event) => onBoardContentKeyPressHandler(event)} />
+                    <Input sx={{ width: '800px' }} value={boardContent} minRows={12} fullWidth multiline disableUnderline placeholder='내용을 입력하세요'
+                        onChange={(event) => setBoardContent(event.target.value)} />
                 </Box>
             </Box>
 
             <Divider sx={{ m: '40px 0' }} />
 
-            <Fab sx={{ position: 'fixed', bottom: '150px', right: '100px' }} onClick={() => onBoardWriteHandler()}>
+            <Fab sx={{ position: 'fixed', bottom: '150px', right: '100px' }} onClick={() => onUpdateHandler()}>
                 <CreateIcon />
             </Fab>
         </Box>     

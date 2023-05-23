@@ -33,7 +33,8 @@ interface Dto {
         // userProfileUrl : string | null; 좋아요 수만 올라가게 나올려면 이건 필요없는듯?
       }
     ];
-    product: 
+    productList: 
+    [
       {
         boardNumber: number;
         productNumber: number;
@@ -42,6 +43,8 @@ interface Dto {
         productUrl: string;
         productImgUrl: string;
       }
+    ]
+
 }
 
 export default Dto;
