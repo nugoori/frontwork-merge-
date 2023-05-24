@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useState, useRef, useEffect } from 'react'
+import { ChangeEvent, useState, useRef, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios, { AxiosResponse } from 'axios';
@@ -7,14 +7,13 @@ import { Box, Fab, Input, Divider, Typography, IconButton } from '@mui/material'
 import CreateIcon from '@mui/icons-material/Create';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-import { FILE_UPLOAD_URL, GET_BOARD_URL, GET_PRODUCT_URL, PATCH_BOARD_URL, PATCH_PRODUCT_URL, POST_BOARD_HAS_PRODUCT, POST_BOARD_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
-import { PatchBoardDto, PatchProductDto, PostBoardDto, PostProductDto } from 'src/apis/request/board';
-import { GetBoardResponseDto, PatchBoardResponseDto, PostBoardResponseDto } from 'src/apis/response/board';
+import { FILE_UPLOAD_URL, GET_BOARD_URL, PATCH_BOARD_URL, PATCH_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
+import { PatchBoardDto, PatchProductDto } from 'src/apis/request/board';
+import { GetBoardResponseDto, PatchBoardResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
-import { GetProductResponseDto, PatchProductResponseDto, PostProductResponseDto } from 'src/apis/response/product';
-import PostBoardHasProductDto from 'src/apis/request/product/Post-Board-Has-Product.dto';
-import { BoardHasProduct, Product } from 'src/interfaces';
-import { usePatchProductStore, usePostProductStore, useUserStore } from 'src/stores';
+import { PatchProductResponseDto } from 'src/apis/response/product';
+import { Product } from 'src/interfaces';
+import { usePatchProductStore, useUserStore } from 'src/stores';
 
 export default function BoardUpdateView() {
     // hook //
@@ -27,14 +26,12 @@ export default function BoardUpdateView() {
     const [cookies] = useCookies();
     const { user } = useUserStore();
     const { boardNumber } = useParams();
-    const { productNumberAPI } = useParams();
+    const { productNumber } = useParams();
 
     const { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag } = usePatchProductStore();
     const { product1, product2, product3, product4, product5, product6 } = usePatchProductStore();
     const { setBoardContent, setBoardImgUrl1, setBoardImgUrl2, setBoardImgUrl3, setTag } = usePatchProductStore();
     const { setProduct1, setProduct2, setProduct3, setProduct4, setProduct5, setProduct6 } = usePatchProductStore();
-
-    const [ board, setboard ] = useState<PatchBoardResponseDto | null>(null);
 
     const accessToken = cookies.accessToken;
 
@@ -79,17 +76,24 @@ export default function BoardUpdateView() {
 
     const onUpdateHandler = () => {
         patchBoard();
+        
+        if (!product1 || !product2 || !product3) {
+            alert('상,하의 신발 정도는 올려주세요!');
+            return;
+        } 
+
+        const productList: Product[] = [product1, product2, product3];
+        if (product4) productList.push(product4);
+        if (product5) productList.push(product5);
+        if (product6) productList.push(product6);
+
+        productList.forEach(product => patchProduct(product));
     }
 
     const getBoard = () => {
       axios.get(GET_BOARD_URL(Number(boardNumber as string)))
         .then((response) => getBoardResponseHandler(response))
         .catch((error) => getBoardErrorHandler(error))
-    }
-    const getProduct = () => {
-      axios.get(GET_PRODUCT_URL(Number(boardNumber as string)))
-      .then((response) => getProductResponseHandler(response))
-      .catch((error) => getProductErrorHandler(error))
     }
     
     const patchBoard = async () => {
@@ -99,8 +103,13 @@ export default function BoardUpdateView() {
             .then((response) => patchBoardResponseHandler(response))
             .catch((error) => patchBoardErrorHandler(error))
     }
+
     const patchProduct = (product: Product) => {
-        const data: PatchProductDto = { ...product };
+        const data: PatchProductDto = { 
+            ...product, 
+            productNumber: product.productNumber as number, 
+            boardNumber: Number(boardNumber as string)
+        };
 
         axios.patch(PATCH_PRODUCT_URL, data, authorizationHeader(accessToken))
             .then((response) => patchProductResponseHandler(response))
@@ -132,7 +141,7 @@ export default function BoardUpdateView() {
         return;
       }
 
-      const { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag, writerEmail,  } = data.board;
+      const { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag, writerEmail } = data.board;
 
       if (writerEmail !== user?.email) {
         alert('권한이 없습니다');
@@ -145,8 +154,6 @@ export default function BoardUpdateView() {
       if (boardImgUrl3) setBoardImgUrl3(boardImgUrl3);
       setTag(tag);
 
-      console.log(data.productList);
-
       data.productList.forEach((product, index) => {
         if (index === 0) setProduct1(product);
         if (index === 1) setProduct2(product);
@@ -155,18 +162,8 @@ export default function BoardUpdateView() {
         if (index === 4) setProduct5(product);
         if (index === 5) setProduct6(product);
       })
-
     }
-
-    const getProductResponseHandler = (response: AxiosResponse<any, any>) => {
-      const { result, message, data } = response.data as ResponseDto<GetProductResponseDto>; 
-      if (!result || !data) {
-        alert(message);
-        navigator('/');
-        return;
-      }
-    }
-
+    
     const patchBoardResponseHandler = (response: AxiosResponse<any, any>) => {
       const { result, message, data } = response.data as ResponseDto<PatchBoardResponseDto>; 
       if (!result || !data) {
@@ -175,13 +172,14 @@ export default function BoardUpdateView() {
       }
       navigator(`/board/detail/${boardNumber}`)
     }
+
     const patchProductResponseHandler = (response: AxiosResponse<any, any>) => {
       const { result, message, data } = response.data as ResponseDto<PatchProductResponseDto>; 
       if (!result || !data) {
         alert(message);
         return;
       } 
-      navigator(`/product/${productNumberAPI}`)
+      navigator(`/product/${productNumber}`)
     }
 
     // error handler //
@@ -197,9 +195,6 @@ export default function BoardUpdateView() {
     const getBoardErrorHandler = (error: any) => {
         console.log(error.message);
     }
-    const getProductErrorHandler = (error: any) => {
-      console.log(error.message);
-  }
 
     // use effect //
     useEffect(() => {

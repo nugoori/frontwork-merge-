@@ -95,7 +95,6 @@ public class ProductServiceImplements implements ProductService{
             ProductEntity productEntity = productRepository.findByProductNumber(productNumber);
             if (productEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_PRODUCT);
 
-            //? 
             productEntity.patch(dto);
             productRepository.save(productEntity);
 

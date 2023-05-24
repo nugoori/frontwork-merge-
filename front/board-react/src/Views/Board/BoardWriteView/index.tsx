@@ -205,7 +205,7 @@ export default function BoardWriteView() {
                     </Box>
                     <Box sx={{}}>
                         <IconButton onClick={() => onBoardImageUploadButtonHandler()} >
-                            <AddAPhotoIcon />
+                            <AddAPhotoIcon /> 
                             <input ref={imageRef} hidden type='file' accept='image/*' onChange={(event) => onBoardImageUploadChangeHandler(event)} />
                         </IconButton>
                     </Box>

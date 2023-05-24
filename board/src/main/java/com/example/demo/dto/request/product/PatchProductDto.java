@@ -1,6 +1,5 @@
 package com.example.demo.dto.request.product;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
@@ -16,9 +15,8 @@ public class PatchProductDto {
     @NotBlank
     @Min(1)
     private int boardNumber;
-
-    @Max(6)
     private int productNumber;
+    
     private String productName;
     private String productPrice;
     private String productUrl;

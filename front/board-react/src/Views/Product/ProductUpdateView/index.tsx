@@ -1,23 +1,15 @@
-import { useState, useRef, ChangeEvent } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import { useRef, ChangeEvent } from 'react'
 import axios, { AxiosResponse } from 'axios';
 
 import { Box, Input, IconButton } from '@mui/material'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-import { FILE_UPLOAD_URL, PATCH_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
-import { PatchProductDto } from 'src/apis/request/board';
-import { PatchBoardResponseDto } from 'src/apis/response/board';
-import ResponseDto from 'src/apis/response';
-import { usePatchProductStore, usePostProductStore } from 'src/stores';
-import GetProductResponseDto from 'src/apis/response/product/Get-Product-response.dto';
+import { FILE_UPLOAD_URL, mutipartHeader } from 'src/constants/api';
+import { usePatchProductStore } from 'src/stores';
 import { Product } from 'src/interfaces';
 
 export default function ProductUpdateView() {
     // hook //
-    const navigator = useNavigate();
-
     const productImgRef1 = useRef<HTMLInputElement | null>(null);
     const productImgRef2 = useRef<HTMLInputElement | null>(null);
     const productImgRef3 = useRef<HTMLInputElement | null>(null);
@@ -25,16 +17,8 @@ export default function ProductUpdateView() {
     const productImgRef5 = useRef<HTMLInputElement | null>(null);
     const productImgRef6 = useRef<HTMLInputElement | null>(null);
 
-    const [cookies] = useCookies();
     const { product1, product2, product3, product4, product5, product6 } = usePatchProductStore();
     const { setProduct1, setProduct2, setProduct3, setProduct4, setProduct5, setProduct6 } = usePatchProductStore();
-
-    const [productName, setProductName] = useState<string>('');
-    const [productPrice, setProductPrice] = useState<string>('');
-    const [productUrl, setProductUrl] = useState<string>('');
-    const [productImgUrl, setProductImgUrl] = useState<string>('');
-
-    const accessToken = cookies.accessToken;
 
     // event handler //
     const onProductImageUploadButtonHandler1 = () => {
@@ -112,84 +96,85 @@ export default function ProductUpdateView() {
     }
 
     // response handler //
-    const onProductUrlChangeHandler1 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const productUrl = event.target.value;
-        if (product1) setProduct1({ ...product1, productUrl });
+    const onProductNameChangeHandler1 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product1) setProduct1({ ...product1, productName });
         else {
             const product: Product = {
-                productName: '',
+                productName,
                 productPrice: '',
-                productUrl,
+                productUrl: '',
                 productImgUrl: ''
             }
             setProduct1(product);
         }
     }
-    const onProductUrlChangeHandler2 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const productUrl = event.target.value;
-        if (product2) setProduct2({ ...product2, productUrl });
+    const onProductNameChangeHandler2 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product2) setProduct2({ ...product2, productName });
         else {
             const product: Product = {
-                productName: '',
+                productName,
                 productPrice: '',
-                productUrl,
+                productUrl: '',
                 productImgUrl: ''
             }
             setProduct2(product);
         }
     }
-    const onProductUrlChangeHandler3 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const productUrl = event.target.value;
-        if (product3) setProduct3({ ...product3, productUrl });
+    const onProductNameChangeHandler3 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product3) setProduct3({ ...product3, productName });
         else {
             const product: Product = {
-                productName: '',
+                productName,
                 productPrice: '',
-                productUrl,
+                productUrl: '',
                 productImgUrl: ''
             }
             setProduct3(product);
         }
     }
-    const onProductUrlChangeHandler4 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const productUrl = event.target.value;
-        if (product4) setProduct4({ ...product4, productUrl });
+    const onProductNameChangeHandler4 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product4) setProduct4({ ...product4, productName });
         else {
             const product: Product = {
-                productName: '',
+                productName,
                 productPrice: '',
-                productUrl,
+                productUrl: '',
                 productImgUrl: ''
             }
             setProduct4(product);
         }
     }
-    const onProductUrlChangeHandler5 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const productUrl = event.target.value;
-        if (product5) setProduct5({ ...product5, productUrl });
+    const onProductNameChangeHandler5 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product5) setProduct5({ ...product5, productName });
         else {
             const product: Product = {
-                productName: '',
+                productName,
                 productPrice: '',
-                productUrl,
+                productUrl: '',
                 productImgUrl: ''
             }
             setProduct5(product);
         }
     }
-    const onProductUrlChangeHandler6 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const productUrl = event.target.value;
-        if (product6) setProduct6({ ...product6, productUrl });
+    const onProductNameChangeHandler6 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productName = event.target.value;
+        if (product6) setProduct6({ ...product6, productName });
         else {
             const product: Product = {
-                productName: '',
+                productName,
                 productPrice: '',
-                productUrl,
+                productUrl: '',
                 productImgUrl: ''
             }
             setProduct6(product);
         }
     }
+
 
     const onProductPriceChangeHandler1 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const productPrice = event.target.value;
@@ -270,6 +255,84 @@ export default function ProductUpdateView() {
         }
     }
     
+    const onProductUrlChangeHandler1 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product1) setProduct1({ ...product1, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct1(product);
+        }
+    }
+    const onProductUrlChangeHandler2 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product2) setProduct2({ ...product2, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct2(product);
+        }
+    }
+    const onProductUrlChangeHandler3 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product3) setProduct3({ ...product3, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct3(product);
+        }
+    }
+    const onProductUrlChangeHandler4 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product4) setProduct4({ ...product4, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct4(product);
+        }
+    }
+    const onProductUrlChangeHandler5 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product5) setProduct5({ ...product5, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct5(product);
+        }
+    }
+    const onProductUrlChangeHandler6 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const productUrl = event.target.value;
+        if (product6) setProduct6({ ...product6, productUrl });
+        else {
+            const product: Product = {
+                productName: '',
+                productPrice: '',
+                productUrl,
+                productImgUrl: ''
+            }
+            setProduct6(product);
+        }
+    }
 
     // response handler //
     const productImageUploadResponseHandler1 = (response: AxiosResponse<any, any>) => {
@@ -357,31 +420,7 @@ export default function ProductUpdateView() {
         }
     }
 
-    const getProductResponseHandler = (response: AxiosResponse<any, any>) => {
-        const { result, message, data } = response.data as ResponseDto<GetProductResponseDto>;
-        if (!result || !data) {
-            alert(message);
-            navigator('/');
-            return;
-        }
-    }
-
-    const patchProductResponseHandler = (response: AxiosResponse<any, any>) => {
-        const { result, message, data } = response.data as ResponseDto<PatchBoardResponseDto>
-        if (!result || !data) {
-            alert(message);
-            return;
-        }
-        navigator('/');
-    }
-
     // error handler //
-    const getProductErrorHandler = (error: any) => {
-        console.log(error.message);
-    }
-    const patchProductErrorHandler = (error: any) => {
-        console.log(error.message);
-    }
     const productImageUploadErrorHandler = (error: any) => {
         console.log(error.message);
     }
@@ -409,9 +448,9 @@ export default function ProductUpdateView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    value={productName} onChange={(event) => setProductName(event.target.value)} />
+                                    onChange={(event) => onProductNameChangeHandler1(event)} value={product1?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => onProductPriceChangeHandler1(event)} value={productPrice} />
+                                    onChange={(event) => onProductPriceChangeHandler1(event)} value={product1?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
                                     onChange={(event) => onProductUrlChangeHandler1(event)} value={product1?.productUrl} />
                             </Box>
@@ -433,11 +472,11 @@ export default function ProductUpdateView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => setProductName(event.target.value)} value={product2?.productName} />
+                                    onChange={(event) => onProductNameChangeHandler2(event)} value={product2?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => setProductPrice(event.target.value)} value={product2?.productPrice} />
+                                    onChange={(event) => onProductPriceChangeHandler2(event)} value={product2?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => setProductUrl(event.target.value)} value={product2?.productUrl} />
+                                    onChange={(event) => onProductUrlChangeHandler2(event)} value={product2?.productUrl} />
                             </Box>
                         </Box>
                         {/* //? 상품 등록박스3 */}
@@ -457,11 +496,11 @@ export default function ProductUpdateView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => setProductName(event.target.value)} value={product3?.productName} />
+                                    onChange={(event) => onProductNameChangeHandler3(event)} value={product3?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => setProductPrice(event.target.value)} value={product3?.productPrice} />
+                                    onChange={(event) => onProductPriceChangeHandler3(event)} value={product3?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => setProductUrl(event.target.value)} value={product3?.productUrl} />
+                                    onChange={(event) => onProductUrlChangeHandler3(event)} value={product3?.productUrl} />
                             </Box>
                         </Box>
                     </Box>
@@ -484,11 +523,11 @@ export default function ProductUpdateView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => setProductName(event.target.value)} value={product4?.productName} />
+                                    onChange={(event) => onProductNameChangeHandler4(event)} value={product4?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => setProductPrice(event.target.value)} value={product4?.productPrice} />
+                                    onChange={(event) => onProductPriceChangeHandler4(event)} value={product4?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => setProductUrl(event.target.value)} value={product4?.productUrl} />
+                                    onChange={(event) => onProductUrlChangeHandler4(event)} value={product4?.productUrl} />
                             </Box>
                         </Box>
                         {/* //? 상품 등록박스5 */}
@@ -508,11 +547,11 @@ export default function ProductUpdateView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => setProductName(event.target.value)} value={product5?.productName} />
+                                    onChange={(event) => onProductNameChangeHandler5(event)} value={product5?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => setProductPrice(event.target.value)} value={product5?.productPrice} />
+                                    onChange={(event) => onProductPriceChangeHandler5(event)} value={product5?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => setProductUrl(event.target.value)} value={product5?.productUrl} />
+                                    onChange={(event) => onProductUrlChangeHandler5(event)} value={product5?.productUrl} />
                             </Box>
                         </Box>
                         {/* //? 상품 등록박스6 */}
@@ -532,22 +571,19 @@ export default function ProductUpdateView() {
                             </Box>
                             <Box sx={{ ml: '5px', mt: '15px' }}>
                                 <Input sx={{ backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 이름'
-                                    onChange={(event) => setProductName(event.target.value)} value={product6?.productName} />
+                                    onChange={(event) => onProductNameChangeHandler6(event)} value={product6?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
-                                    onChange={(event) => setProductPrice(event.target.value)} value={product6?.productPrice} />
+                                    onChange={(event) => onProductPriceChangeHandler6(event)} value={product6?.productPrice} />
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
-                                    onChange={(event) => setProductUrl(event.target.value)} value={product6?.productUrl} />
+                                    onChange={(event) => onProductUrlChangeHandler6(event)} value={product6?.productUrl} />
                             </Box>
                         </Box>
                     </Box>
                 </Box>
             </Box>
 
-            {/* <Fab sx={{ position: 'fixed', bottom: '50px', right: '100px' }} onClick={() => onProductWriteHandler()}>
-                <CreateIcon />
-            </Fab> */}
         </>
     )
 
 }
-// todo : product patch가 안되는중
+// todo : 

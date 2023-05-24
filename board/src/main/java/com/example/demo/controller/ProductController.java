@@ -30,7 +30,7 @@ public class ProductController {
     @Autowired ProductService productService;
     
     private final String POST_PRODUCT = "/post-product";
-    private final String PATCH_PRODUCT = "/patch-product";
+    private final String PATCH_PRODUCT = "";
     private final String DELETE_PRODUCT = "/{productNumber}";
     private final String POST_BOARD_HAS_PRODUCT = "/has-product";
 
