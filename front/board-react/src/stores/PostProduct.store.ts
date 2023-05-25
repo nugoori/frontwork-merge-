@@ -60,4 +60,6 @@ const useStore = create<IPostProductStore>((set) => ({
     setProduct6: (product6: Product) => set((state) => ({...state, product6})),
 }));
 
+
+
 export default useStore;

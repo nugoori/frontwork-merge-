@@ -29,8 +29,6 @@ export default function BoardWriteView() {
     const { boardContent, boardImgUrl1, boardImgUrl2, boardImgUrl3, tag } = usePostProductStore();
     const { product1, product2, product3, product4, product5, product6 } = usePostProductStore();
     const { setBoardContent, setBoardImgUrl1, setBoardImgUrl2, setBoardImgUrl3, setTag } = usePostProductStore();
-
-    const [ board, setboard ] = useState<PostBoardResponseDto | null>(null);
     
     let boardNumber = 0;
 
@@ -100,7 +98,7 @@ export default function BoardWriteView() {
             .then((response) => postBoardResponseHandler(response))
             .catch((error) => postBoardErrorHandler(error))
     }
-    //^ 따로 따로 가져오는 방법?
+
     const postProduct = (product: Product) => {
         const data: PostProductDto = { ...product };
 
@@ -140,13 +138,13 @@ export default function BoardWriteView() {
             alert(message);
             return;
         }
-        // setBoard(data);
         boardNumber = data.boardEntity.boardNumber;
 
         if (!boardImgUrl1.trim() || !boardContent.trim()) {
             alert('모든 내용을 작성해주세요!');
             return;
         }
+        
         if (!product1 || !product2 || !product3) {
             alert('상,하의 신발 정도는 올려주세요!');
             return;
@@ -166,7 +164,6 @@ export default function BoardWriteView() {
             alert(message);
             return;
         }
-        // console.log(boardNumber)
         if (!boardNumber) return;
 
         const dto: BoardHasProduct = { boardNumber, productNumber: data.productNumber }
@@ -200,15 +197,18 @@ export default function BoardWriteView() {
             {/* //? 게시물 본문 */}
             <Box sx={{ width: '100%', display: 'block', textAlign: 'center' }}>
                 <Box sx={{ p: '15px 0' }}>
+
                     <Box sx={{ width: '100%' }} >
                         <Box sx={{ width: '50%' }} component='img' src={boardImgUrl1} />
                     </Box>
+
                     <Box sx={{}}>
                         <IconButton onClick={() => onBoardImageUploadButtonHandler()} >
                             <AddAPhotoIcon /> 
                             <input ref={imageRef} hidden type='file' accept='image/*' onChange={(event) => onBoardImageUploadChangeHandler(event)} />
                         </IconButton>
                     </Box>
+                    
                 </Box>
                 <Divider sx={{ m: '40px 0' }} />
                 <Box sx={{ p: '15px 0' }}>

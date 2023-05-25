@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useState, useRef, useEffect } from 'react'
+import { ChangeEvent, useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios, { AxiosResponse } from 'axios';
@@ -6,8 +6,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Box, Input, IconButton } from '@mui/material'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-import { FILE_UPLOAD_URL, POST_PRODUCT_URL, authorizationHeader, mutipartHeader } from 'src/constants/api';
-import { PostProductDto } from 'src/apis/request/board';
+import { FILE_UPLOAD_URL, mutipartHeader } from 'src/constants/api';
 import { PostBoardResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
 import { Product } from 'src/interfaces';
@@ -27,11 +26,6 @@ export default function ProductWriteView() {
     const [cookies] = useCookies();
     const { product1, product2, product3, product4, product5, product6 } = usePostProductStore();
     const { setProduct1, setProduct2, setProduct3, setProduct4, setProduct5, setProduct6 } = usePostProductStore();
-
-    const [ productName, setProductName ] = useState<string>('');
-    const [ productPrice, setProductPrice ] = useState<string>('');
-    const [ productUrl, setProductUrl ] = useState<string>('');
-    const [ productImgUrl, setProductImgUrl ] = useState<string>('');
 
     const accessToken = cookies.accessToken;
 
@@ -349,22 +343,6 @@ export default function ProductWriteView() {
         }
     }
 
-    const postProduct = () => {
-        const data : PostProductDto = { productName, productPrice, productUrl, productImgUrl }
-
-        axios.post(POST_PRODUCT_URL, data, authorizationHeader(accessToken))
-            .then((response) => postProductResponseHandler(response))
-            .catch((error) => postProductErrorHandler(error))
-    }
-
-    const onProductWriteHandler = () => {
-        if (!product1 || !product2 || !product3) {
-            alert('최소 상,하의, 신발 정보는 입력해주세요.');
-            return;
-        }
-
-    }
-
     // response handler //
     const productImageUploadResponseHandler1 = (response: AxiosResponse<any, any>) => {
         const productImgUrl = response.data as string;
@@ -451,31 +429,10 @@ export default function ProductWriteView() {
         }
     }
 
-    const postProductResponseHandler = (response: AxiosResponse<any, any>) => {
-        const { result, message, data } = response.data as ResponseDto<PostBoardResponseDto>
-        if (!result || !data) {
-            alert(message);
-            return;
-        }
-        navigator('/');
-    }
-
     // error handler //
     const productImageUploadErrorHandler = (error: any) => {
         console.log(error.message);
     }
-
-    const postProductErrorHandler = (error: any) => {
-        console.log(error.message);
-    }
-
-    // use effect //
-    useEffect(() => {
-        if (!accessToken) {
-            navigator('/')
-            return;
-        }
-    }, [])
 
     return (
         <>
@@ -503,7 +460,6 @@ export default function ProductWriteView() {
                                     onChange={(event) => onProductNameChangeHandler1(event)} value={product1?.productName} />
                                 <Input sx={{ mt: '10px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 가격'
                                     onChange={(event) => onProductPriceChangeHandler1(event)} value={product1?.productPrice} />
-                                {/* //? url 이동 되는건가? */}
                                 <Input sx={{ mt: '10px', mr: '5px', backgroundColor: 'rgba(0, 0, 0, 0.02)', width: '225px' }} disableUnderline placeholder='상품 구매 Url' type='url'
                                     onChange={(event) => onProductUrlChangeHandler1(event)} value={product1?.productUrl} />
                             </Box>
@@ -634,11 +590,6 @@ export default function ProductWriteView() {
                     </Box>
                 </Box>
             </Box>
-
-            {/* <Fab sx={{ position: 'fixed', bottom: '50px', right: '100px' }} onClick={() => onProductWriteHandler()}>
-                <CreateIcon />
-            </Fab> */}
         </>
     )
- 
 }
